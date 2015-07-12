@@ -27,7 +27,7 @@ public class ProfileController extends BaseController {
     @Autowired
     MealService mealService;
 
-    Logger logger = Logger.getLogger(ProfileController.class);
+    private final Logger logger = Logger.getLogger(ProfileController.class);
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profileGet(HttpServletRequest request) {

@@ -17,7 +17,7 @@ public class BaseController {
     @Autowired
     IdGenerator idGenerator;
 
-    public void setSessionInfo(User user, HttpServletRequest request) {
+    protected void setSessionInfo(User user, HttpServletRequest request) {
         SessionInfo sessionInfo = new SessionInfo();
         sessionInfo.setUser(user);
         sessionInfo.setSessionId(idGenerator.generateGUID());
@@ -25,7 +25,7 @@ public class BaseController {
         session.setAttribute("sessionInfo", sessionInfo);
     }
 
-    public SessionInfo getSessionInfo(HttpServletRequest request) {
+    protected SessionInfo getSessionInfo(HttpServletRequest request) {
         //TODO throw exception if it is null
         return (SessionInfo) request.getSession().getAttribute("sessionInfo");
     }

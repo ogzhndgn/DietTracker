@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     private void changePassword(int id, String password) throws UnexpectedErrorException, PasswordCanNotChangedException {
         String passwordSalt = hashService.getPasswordSalt();
         String passwordHash = hashService.hashPassword(password, passwordSalt);
-        int updatedRowCount = 0;
+        int updatedRowCount;
         try {
             updatedRowCount = userDao.updatePassword(id, passwordHash, passwordSalt);
         } catch (DAOException e) {

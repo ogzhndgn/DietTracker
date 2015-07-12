@@ -7,7 +7,7 @@ import com.diettracker.webapp.service.ApiErrorCode;
  */
 public class ServiceException extends Exception {
 
-    public ServiceException(ApiErrorCode apiErrorCode) {
+    protected ServiceException(ApiErrorCode apiErrorCode) {
         super(apiErrorCode.toString());
     }
 }

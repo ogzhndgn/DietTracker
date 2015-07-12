@@ -13,9 +13,9 @@ public class DatabaseObject {
     @Autowired
     private BasicDataSource dataSource;
 
-    Logger logger = Logger.getLogger(UserDao.class);
+    final Logger logger = Logger.getLogger(UserDao.class);
 
-    public BasicDataSource getDataSource() {
+    BasicDataSource getDataSource() {
         return dataSource;
     }
 }

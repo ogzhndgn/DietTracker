@@ -18,8 +18,6 @@ import java.util.List;
 @Repository
 public class UserDao extends DatabaseObject {
 
-    private boolean DEFAULT_ACTIVE = true;
-
     public List<User> getUsers() {
         StringBuilder stringBuilder = new StringBuilder("SELECT * FROM diettracker.user");
         ResultSetHandler<List<User>> resultSetHandler = new BeanListHandler<>(User.class);
@@ -72,6 +70,7 @@ public class UserDao extends DatabaseObject {
         String sql = "INSERT INTO diettracker.user (email, passwordhash, passwordsalt, active) VALUES (?,?,?,?)";
         ResultSetHandler<User> resultSetHandler = new BeanHandler<>(User.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());
+        boolean DEFAULT_ACTIVE = true;
         Object[] params = {email, passwordHash, passwordSalt, DEFAULT_ACTIVE};
         try {
             return queryRunner.insert(sql, resultSetHandler, params);
@@ -83,7 +82,6 @@ public class UserDao extends DatabaseObject {
 
     public int update(int id, String name) throws DAOException {
         String sql = "UPDATE diettracker.user SET name = ? WHERE id = ?";
-        ResultSetHandler<User> resultSetHandler = new BeanHandler<>(User.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());
         Object[] params = {name, id};
         try {
@@ -96,7 +94,6 @@ public class UserDao extends DatabaseObject {
 
     public int updatePassword(int id, String passwordHash, String passwordSalt) throws DAOException {
         String sql = "UPDATE diettracker.user SET passwordhash = ?, passwordsalt = ? WHERE id = ?";
-        ResultSetHandler<User> resultSetHandler = new BeanHandler<>(User.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());
         Object[] params = {passwordHash, passwordSalt, id};
         try {
