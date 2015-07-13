@@ -1,10 +1,13 @@
 package com.diettracker.webapp.controller;
 
 import com.diettracker.webapp.controller.base.BaseController;
+import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.ServiceException;
+import com.diettracker.webapp.model.Food;
 import com.diettracker.webapp.model.Meal;
 import com.diettracker.webapp.model.SessionInfo;
 import com.diettracker.webapp.model.User;
+import com.diettracker.webapp.service.spec.FoodService;
 import com.diettracker.webapp.service.spec.MealService;
 import com.diettracker.webapp.service.spec.UserService;
 import org.apache.log4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +30,8 @@ public class ProfileController extends BaseController {
     UserService userService;
     @Autowired
     MealService mealService;
+    @Autowired
+    FoodService foodService;
 
     private final Logger logger = Logger.getLogger(ProfileController.class);
 
@@ -47,7 +53,7 @@ public class ProfileController extends BaseController {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirm-password");
-        String id = user.getId();
+        int id = user.getId();
         try {
             user = userService.editUserInfo(id, name, password, confirmPassword);
             super.setSessionInfo(user, request);
@@ -64,12 +70,27 @@ public class ProfileController extends BaseController {
         String meal = request.getParameter("meal");
         String[] foodArray = request.getParameterValues("food");
         String time = request.getParameter("time");
-        logger.info("Meal: " + meal);
-        for (String food : foodArray) {
-            logger.info("Food: " + food);
+        try {
+            logger.info("Meal: " + meal);
+            List<Food> foodList = this.insertFoodArray(user, foodArray);
+            for (Food food : foodList) {
+                logger.info(food.getId() + " " + food.getName());
+            }
+            logger.info("Time: " + time);
+            return this.getAddMealSuccessfully(request);
+        } catch (ServiceException se) {
+            return this.returnProfilePageForError(se.getMessage(), user);
         }
-        logger.info("Time: " + time);
-        return this.getAddMealSuccessfully(request);
+    }
+
+    private List<Food> insertFoodArray(User user, String[] foodArray) throws UnexpectedErrorException {
+        List<Food> foodList = new ArrayList<>();
+        for (String foodName : foodArray) {
+            Food food = foodService.insertNewFood(foodName, user.getId());
+            foodList.add(food);
+            logger.info("Food: " + foodName);
+        }
+        return foodList;
     }
 
     private ModelAndView returnProfilePageForError(String apiErrorCode, User user) {

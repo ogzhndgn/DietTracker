@@ -54,14 +54,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User editUserInfo(String id, String name, String password, String confirmPassword) throws ServiceException {
-        int userId = Integer.parseInt(id);
-        User user = this.getById(userId);
+    public User editUserInfo(int id, String name, String password, String confirmPassword) throws ServiceException {
+        User user = this.getById(id);
         if (this.isPasswordUpdate(password, confirmPassword)) {
-            this.changePassword(userId, password);
+            this.changePassword(id, password);
         }
-        this.updateUser(name, userId);
-        return this.getById(userId);
+        this.updateUser(name, id);
+        return this.getById(id);
     }
 
     private void updateUser(String name, int userId) throws ServiceException {

@@ -6,18 +6,18 @@ import java.util.Random;
  * @author the Poet <dogan_oguzhan@hotmail.com> 20.6.2015
  */
 public class User {
-    private String id;
+    private int id;
     private String name;
     private String email;
     private String passwordHash;
     private String passwordSalt;
     private boolean active;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,19 +59,6 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public User getTestUser() {
-        Random random = new Random();
-        int testInt = random.nextInt();
-        if (testInt % 2 == 0) {
-            return null;
-        }
-        User user = new User();
-        user.setId("ID");
-        user.setName("Name");
-        user.setEmail("name@surname.com");
-        return user;
     }
 
     @Override
