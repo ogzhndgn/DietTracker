@@ -2,6 +2,7 @@ package com.diettracker.webapp.service.impl;
 
 import com.diettracker.webapp.dao.MealDao;
 import com.diettracker.webapp.exception.impl.EmptyMealListException;
+import com.diettracker.webapp.exception.impl.InvalidMealException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.exception.spec.ServiceException;
@@ -28,6 +29,19 @@ public class MealServiceImpl implements MealService {
                 throw new EmptyMealListException();
             }
             return mealList;
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+    }
+
+    @Override
+    public Meal getMealById(int id) throws UnexpectedErrorException, InvalidMealException {
+        try {
+            Meal meal = mealDao.get(id);
+            if (meal == null) {
+                throw new InvalidMealException();
+            }
+            return meal;
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }

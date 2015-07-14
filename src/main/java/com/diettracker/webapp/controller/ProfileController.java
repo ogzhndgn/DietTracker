@@ -3,12 +3,10 @@ package com.diettracker.webapp.controller;
 import com.diettracker.webapp.controller.base.BaseController;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.ServiceException;
-import com.diettracker.webapp.model.Food;
-import com.diettracker.webapp.model.Meal;
-import com.diettracker.webapp.model.SessionInfo;
-import com.diettracker.webapp.model.User;
+import com.diettracker.webapp.model.*;
 import com.diettracker.webapp.service.spec.FoodService;
 import com.diettracker.webapp.service.spec.MealService;
+import com.diettracker.webapp.service.spec.UserMealService;
 import com.diettracker.webapp.service.spec.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,8 @@ public class ProfileController extends BaseController {
     MealService mealService;
     @Autowired
     FoodService foodService;
+    @Autowired
+    UserMealService userMealService;
 
     private final Logger logger = Logger.getLogger(ProfileController.class);
 
@@ -71,12 +71,8 @@ public class ProfileController extends BaseController {
         String[] foodArray = request.getParameterValues("food");
         String time = request.getParameter("time");
         try {
-            logger.info("Meal: " + meal);
             List<Food> foodList = this.insertFoodArray(user, foodArray);
-            for (Food food : foodList) {
-                logger.info(food.getId() + " " + food.getName());
-            }
-            logger.info("Time: " + time);
+            UserMeal userMeal = userMealService.addUserMeal(meal, user.getId(), time);
             return this.getAddMealSuccessfully(request);
         } catch (ServiceException se) {
             return this.returnProfilePageForError(se.getMessage(), user);
@@ -88,13 +84,18 @@ public class ProfileController extends BaseController {
         for (String foodName : foodArray) {
             Food food = foodService.insertNewFood(foodName, user.getId());
             foodList.add(food);
-            logger.info("Food: " + foodName);
         }
         return foodList;
     }
 
     private ModelAndView returnProfilePageForError(String apiErrorCode, User user) {
         ModelAndView modelAndView = new ModelAndView("profile/profile");
+        List<Meal> mealList = null;
+        try {
+            mealList = mealService.getMealList();
+        } catch (ServiceException ignored) {
+        }
+        modelAndView.addObject("mealList", mealList);
         modelAndView.addObject("showErrorMessage", true);
         modelAndView.addObject("errorMessage", apiErrorCode);
         modelAndView.addObject("user", user);
