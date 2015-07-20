@@ -3,7 +3,10 @@ package com.diettracker.webapp.service.spec;
 import com.diettracker.webapp.exception.impl.InvalidDateException;
 import com.diettracker.webapp.exception.impl.InvalidMealException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
+import com.diettracker.webapp.model.Food;
 import com.diettracker.webapp.model.UserMeal;
+
+import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 15.7.2015

@@ -4,10 +4,8 @@ import com.diettracker.webapp.controller.base.BaseController;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.*;
-import com.diettracker.webapp.service.spec.FoodService;
-import com.diettracker.webapp.service.spec.MealService;
-import com.diettracker.webapp.service.spec.UserMealService;
-import com.diettracker.webapp.service.spec.UserService;
+import com.diettracker.webapp.service.spec.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +30,8 @@ public class ProfileController extends BaseController {
     FoodService foodService;
     @Autowired
     UserMealService userMealService;
+    @Autowired
+    MealFoodService mealFoodService;
 
     private final Logger logger = Logger.getLogger(ProfileController.class);
 
@@ -71,8 +71,10 @@ public class ProfileController extends BaseController {
         String[] foodArray = request.getParameterValues("food");
         String time = request.getParameter("time");
         try {
-            List<Food> foodList = this.insertFoodArray(user, foodArray);
+            //TODO convert them to transactional
             UserMeal userMeal = userMealService.addUserMeal(meal, user.getId(), time);
+            List<Food> foodList = this.insertFoodArray(user, foodArray);
+            mealFoodService.insertNewMealFood(userMeal, foodList);
             return this.getAddMealSuccessfully(request);
         } catch (ServiceException se) {
             return this.returnProfilePageForError(se.getMessage(), user);
@@ -82,8 +84,10 @@ public class ProfileController extends BaseController {
     private List<Food> insertFoodArray(User user, String[] foodArray) throws UnexpectedErrorException {
         List<Food> foodList = new ArrayList<>();
         for (String foodName : foodArray) {
-            Food food = foodService.insertNewFood(foodName, user.getId());
-            foodList.add(food);
+            if (StringUtils.isNotBlank(foodName)) {
+                Food food = foodService.insertNewFood(foodName, user.getId());
+                foodList.add(food);
+            }
         }
         return foodList;
     }
