@@ -6,7 +6,6 @@ import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.*;
 import com.diettracker.webapp.service.spec.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +31,8 @@ public class ProfileController extends BaseController {
     UserMealService userMealService;
     @Autowired
     MealFoodService mealFoodService;
-
-    private final Logger logger = Logger.getLogger(ProfileController.class);
+    @Autowired
+    HistoryService historyService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView profileGet(HttpServletRequest request) {
@@ -109,6 +108,8 @@ public class ProfileController extends BaseController {
     private ModelAndView returnProfilePage(User user) throws ServiceException {
         ModelAndView modelAndView = new ModelAndView("profile/profile");
         List<Meal> mealList = mealService.getMealList();
+        List<History> historyList = historyService.getLasts(user.getId());
+        modelAndView.addObject("historyList", historyList);
         modelAndView.addObject("user", user);
         modelAndView.addObject("mealList", mealList);
         return modelAndView;
