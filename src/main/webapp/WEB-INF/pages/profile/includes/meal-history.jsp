@@ -3,31 +3,20 @@
   <table class="table">
     <thead>
     <tr>
-      <th>#</th>
-      <th>Product</th>
-      <th>Payment Taken</th>
-      <th>Status</th>
+      <th><spring:message code="text.Meal"/></th>
+      <th><spring:message code="text.Food"/></th>
+      <th><spring:message code="text.Time"/></th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>1</td>
-      <td>TB - Monthly</td>
-      <td>01/04/2012</td>
-      <td>Default</td>
-    </tr>
-    <tr class="active">
-      <td>1</td>
-      <td>TB - Monthly</td>
-      <td>01/04/2012</td>
-      <td>Approved</td>
-    </tr>
-    <tr class="success">
-      <td>2</td>
-      <td>TB - Monthly</td>
-      <td>02/04/2012</td>
-      <td>Declined</td>
-    </tr>
+    <c:forEach var="history" items="${historyList}">
+      <tr class="active">
+        <td><spring:message code="text.${history.code}"/></td>
+        <td>${history.foodList}</td>
+        <fmt:parseDate value="{${history.eatingTime}" var="eatingTime" pattern="dd.MM.yyyy HH:mm"  />
+        <td><c:out value="${eatingTime}"/></td>
+      </tr>
+    </c:forEach>
     </tbody>
   </table>
 </div>

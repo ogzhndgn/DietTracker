@@ -9,8 +9,8 @@
       <div class="form-group">
           <label class="control-label col-sm-2" for="meal"><spring:message code="text.Meal"/></label>
           <div class="col-sm-10">
-              <select class="form-control" id="meal" name="meal">
-                  <option value=""><spring:message code="text.PleaseSelect"/></option>
+              <select class="form-control" id="meal" name="meal" required="">
+                  <option><spring:message code="text.PleaseSelect"/></option>
                   <c:forEach var="meal" items="${mealList}">
                       <option value="${meal.id}"><spring:message code="text.${meal.code}"/></option>
                   </c:forEach>
@@ -20,7 +20,7 @@
       <div class="form-group">
           <label class="control-label col-sm-2" for="food"><spring:message code="text.Food"/></label>
           <div class="col-sm-10">
-              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" value=""/>
+              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" required=""/>
           </div>
       </div>
       <div class="form-group">
