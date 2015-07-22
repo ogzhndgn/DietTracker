@@ -13,8 +13,7 @@
       <tr class="active">
         <td><spring:message code="text.${history.code}"/></td>
         <td>${history.foodList}</td>
-        <fmt:parseDate value="{${history.eatingTime}" var="eatingTime" pattern="dd.MM.yyyy HH:mm"  />
-        <td><c:out value="${eatingTime}"/></td>
+        <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${history.eatingTime}"/></td>
       </tr>
     </c:forEach>
     </tbody>
