@@ -1,4 +1,4 @@
-<div class="col-md-3">
+<div class="col-md-4">
   <h3><spring:message code="text.ProfileUpdate"/></h3>
   <form class="form-horizontal" role="form" id="user-update" action="${pageContext.request.contextPath}/profile" method="post">
     <input type="hidden" name="user_update"/>
@@ -30,6 +30,7 @@
       <div class="col-sm-4"></div>
       <div class="col-sm-8">
         <button type="submit" class="btn btn-default"><spring:message code="text.Update" /></button>
+        <a href="${pageContext.request.contextPath}/logout" class="btn btn-info btn-default"><span class="glyphicon glyphicon-log-out"></span><spring:message code="text.LogOut"/></a>
       </div>
     </div>
   </form>

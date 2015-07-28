@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class BaseController {
+    public static final String SESSION_VAR = "sessionInfo";
     @Autowired
     IdGenerator idGenerator;
 
@@ -22,11 +23,15 @@ public class BaseController {
         sessionInfo.setUser(user);
         sessionInfo.setSessionId(idGenerator.generateGUID());
         HttpSession session = request.getSession();
-        session.setAttribute("sessionInfo", sessionInfo);
+        session.setAttribute(SESSION_VAR, sessionInfo);
     }
 
     protected SessionInfo getSessionInfo(HttpServletRequest request) {
         //TODO throw exception if it is null
-        return (SessionInfo) request.getSession().getAttribute("sessionInfo");
+        return (SessionInfo) request.getSession().getAttribute(SESSION_VAR);
+    }
+
+    protected void removeSessionInfo(HttpServletRequest request) {
+        request.getSession().removeAttribute(SESSION_VAR);
     }
 }

@@ -16,6 +16,13 @@
                         <span class="sr-only">Error</span><spring:message code="error.${errorMessage}"/>
                     </div>
                 </c:if>
+                <c:if test="${showLogOutMessage}">
+                    <div class="alert alert-success" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                        <span class="sr-only"></span><spring:message code="success.${successMessage}"/>
+                    </div>
+                </c:if>
                 <div class="panel panel-login">
                     <div class="panel-heading">
                         <div class="row">
