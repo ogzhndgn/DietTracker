@@ -15,6 +15,7 @@
         <%@include file="includes/meal-history.jsp" %>
         <%@include file="includes/empty-col-2.jsp"%>
     </div>
+    <%@include file="includes/footer.jsp"%>
 </div>
 </body>
 </html>
