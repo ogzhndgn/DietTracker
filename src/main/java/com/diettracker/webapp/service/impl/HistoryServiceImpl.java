@@ -30,4 +30,13 @@ public class HistoryServiceImpl implements HistoryService {
             throw new UnexpectedErrorException();
         }
     }
+
+    @Override
+    public List<History> getAll(int userId) throws UnexpectedErrorException {
+        try {
+            return historyDao.get(userId);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+    }
 }

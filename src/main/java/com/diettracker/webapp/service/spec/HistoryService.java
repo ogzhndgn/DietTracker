@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface HistoryService {
     public List<History> getLasts(int userId) throws UnexpectedErrorException;
+
+    public List<History> getAll(int userId) throws UnexpectedErrorException;
 }

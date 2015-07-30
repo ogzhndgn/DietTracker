@@ -1,5 +1,4 @@
 <div class="col-md-8">
-  <caption><h3><spring:message code="text.MealHistory"/></h3></caption>
   <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -18,5 +17,4 @@
     </c:forEach>
     </tbody>
   </table>
-  <a href="${pageContext.request.contextPath}/history" class="btn btn-info" role="button"><spring:message code="text.SeeMore"/></a>
 </div>

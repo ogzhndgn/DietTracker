@@ -30,7 +30,7 @@
       <div class="col-sm-4"></div>
       <div class="col-sm-8">
         <button type="submit" class="btn btn-default"><spring:message code="text.Update" /></button>
-        <a href="${pageContext.request.contextPath}/logout" class="btn btn-info btn-default"><span class="glyphicon glyphicon-log-out"></span><spring:message code="text.LogOut"/></a>
+        <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary"><span class="glyphicon glyphicon-log-out"></span><spring:message code="text.LogOut"/></a>
       </div>
     </div>
   </form>
