@@ -5,6 +5,7 @@
       <th><spring:message code="text.Meal"/></th>
       <th><spring:message code="text.Food"/></th>
       <th><spring:message code="text.Time"/></th>
+      <th><spring:message code="text.Actions"/></th>
     </tr>
     </thead>
     <tbody>
@@ -13,8 +14,50 @@
         <td><spring:message code="text.${history.code}"/></td>
         <td>${history.foodList}</td>
         <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${history.eatingTime}"/></td>
+        <td>
+          <a role="button" class="confirm-delete btn btn-primary btn-sm" data-id="${history.id}">
+            <span class="glyphicon glyphicon-remove"></span><spring:message code="text.Delete"/>
+          </a>
+        </td>
       </tr>
     </c:forEach>
     </tbody>
   </table>
 </div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="confirmModalLabel"><spring:message code="text.AreYouSureTitle"/></h4>
+      </div>
+      <div class="modal-body">
+        <spring:message code="text.AreYouSureDeleteMeal"/>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn secondary"><spring:message code="text.Close"/></a>
+        <a id="deleteButton" role="button" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-remove"></span><spring:message code="text.Delete"/>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('.confirm-delete').on('click', function(e) {
+      e.preventDefault();
+      var id = $(this).data('id');
+      $('#confirmModal').data('id', id).modal('show');
+    });
+
+    $('#deleteButton').click(function() {
+      var id = $('#confirmModal').data('id');
+      $('[data-id='+id+']').parents('tr').remove();
+      $('#confirmModal').modal('hide');
+
+    });
+  });
+</script>

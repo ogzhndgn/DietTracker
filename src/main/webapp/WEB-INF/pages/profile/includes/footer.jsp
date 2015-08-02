@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-5 column"></div>
         </div>
-    </div>
+</div>
 </div>
 
 <div class="modal fade" id="dietTrackerModal" tabindex="-1" role="dialog" aria-labelledby="dietTrackerModalLabel">

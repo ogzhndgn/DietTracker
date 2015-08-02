@@ -20,19 +20,19 @@
       <div class="form-group">
           <label class="control-label col-sm-2" for="food"><spring:message code="text.Food"/></label>
           <div class="col-sm-10">
-              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" required=""/>
+              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" autocomplete="off" value="" required=""/>
           </div>
       </div>
       <div class="form-group">
           <div class="col-sm-2"></div>
           <div class="col-sm-10">
-              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" value=""/>
+              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" autocomplete="off" value=""/>
           </div>
       </div>
       <div class="form-group">
           <div class="col-sm-2"></div>
           <div class="col-sm-10">
-              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" value=""/>
+              <input type="text" name="food" id="food" tabindex="1" class="form-control" placeholder="<spring:message code="text.Food"/>" autocomplete="off" value=""/>
            </div>
       </div>
       <div class="form-group">
