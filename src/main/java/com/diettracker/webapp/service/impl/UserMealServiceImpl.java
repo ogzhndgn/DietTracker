@@ -42,6 +42,12 @@ public class UserMealServiceImpl implements UserMealService {
         }
     }
 
+    @Override
+    public UserMeal deleteUserMeal(int userMealId, int userId) {
+
+        return null;
+    }
+
     private Timestamp convertToTimestamp(String eatingTime) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         Date parsedDate = dateFormat.parse(eatingTime);

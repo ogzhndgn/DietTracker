@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface UserMealService {
     public UserMeal addUserMeal(String meal, int userId, String eatingTime) throws UnexpectedErrorException, InvalidMealException, InvalidDateException;
+
+    public UserMeal deleteUserMeal(int userMealId, int userId);
 }
