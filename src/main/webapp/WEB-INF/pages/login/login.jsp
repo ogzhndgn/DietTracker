@@ -1,7 +1,7 @@
 <html lang="en">
 <%@include file="../../pages/header.jsp" %>
 <link href="${pageContext.request.contextPath}/css/login.page.css" rel="stylesheet">
-<body>
+<body bgcolor="#faebd7">
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -27,10 +27,10 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="#" class="active" id="login-form-link"><spring:message code="text.Login"/></a>
+                                <a href="#" <c:if test="${showLoginForm}"> class="active"</c:if> id="login-form-link"><spring:message code="text.Login"/></a>
                             </div>
                             <div class="col-xs-6">
-                                <a href="#" id="register-form-link"><spring:message code="text.Register"/></a>
+                                <a href="#" <c:if test="${not showLoginForm}"> class="active"</c:if> id="register-form-link"><spring:message code="text.Register"/></a>
                             </div>
                         </div>
                         <hr>
@@ -40,10 +40,10 @@
                             <div class="col-lg-12">
                                 <form id="login-form" action="${pageContext.request.contextPath}/" method="post" role="form" <c:if test="${not showLoginForm}"> style="display: none;"</c:if> >
                                     <div class="form-group">
-                                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="<spring:message code="text.Email"/>" value="" required="">
+                                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="<spring:message code="text.Email"/>" value="" autocomplete="off" required="">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="<spring:message code="text.Password"/>"  required="">
+                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="<spring:message code="text.Password"/>" autocomplete="off"  required="">
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
@@ -56,7 +56,8 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="text-center">
-                                                    <a href="${pageContext.request.contextPath}/forgotpassword" tabindex="5" class="forgot-password"><spring:message code="text.ForgotPassword"/></a>
+                                                    <%--<a href="${pageContext.request.contextPath}/forgotpassword" tabindex="5" class="forgot-password"><spring:message code="text.ForgotPassword"/></a>--%>
+                                                    <span class="version-name">v1.0.0 Amsterdam</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -64,13 +65,13 @@
                                 </form>
                                 <form id="register-form" action="${pageContext.request.contextPath}/register" method="post" role="form" <c:if test="${not showRegisterForm}"> style="display: none;" </c:if> >
                                     <div class="form-group">
-                                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="<spring:message code="text.Email"/>" value="" required="">
+                                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="<spring:message code="text.Email"/>" value="" autocomplete="off" required="">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="<spring:message code="text.Password"/>" required="">
+                                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="<spring:message code="text.Password"/>" autocomplete="off" required="">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="<spring:message code="text.ConfirmPassword"/>" required="">
+                                        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="<spring:message code="text.ConfirmPassword"/>" autocomplete="off" required="">
                                     </div>
                                     <div class="form-group">
                                         <div class="row">

@@ -4,7 +4,7 @@
     <groupId>com.springapp</groupId>
     <artifactId>diet-tracker-webapp</artifactId>
     <packaging>war</packaging>
-    <version>0.1</version>
+    <version>1.0.0</version>
     <name>diet-tracker-webapp</name>
 
     <properties>
@@ -81,7 +81,7 @@
     </dependencies>
 
     <build>
-        <finalName>diettracker</finalName>
+        <finalName>diettracker-${version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
