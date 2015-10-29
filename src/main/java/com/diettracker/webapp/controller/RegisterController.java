@@ -28,9 +28,8 @@ public class RegisterController extends BaseController {
             String password = request.getParameter("password");
             String confirmPassword = request.getParameter("confirm-password");
             User user = userService.registerUser(email, password, confirmPassword);
-            ModelAndView modelAndView = new ModelAndView("user/user");
-            modelAndView.addObject("user", user);
-            return modelAndView;
+            super.setSessionInfo(user, request);
+            return new ModelAndView("redirect:/profile");
         } catch (ServiceException e) {
             return this.returnToRegisterForm(e.getMessage());
         }

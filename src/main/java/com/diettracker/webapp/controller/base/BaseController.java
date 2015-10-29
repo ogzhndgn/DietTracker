@@ -27,7 +27,6 @@ public class BaseController {
     }
 
     protected SessionInfo getSessionInfo(HttpServletRequest request) {
-        //TODO throw exception if it is null
         return (SessionInfo) request.getSession().getAttribute(SESSION_VAR);
     }
 

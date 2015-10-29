@@ -10,12 +10,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 14.7.2015
  */
 @Service
 public class FoodServiceImpl implements FoodService {
 
+    public static final int FOOD_PREFIX_LIMIT = 10;
     @Autowired
     FoodDao foodDao;
 
@@ -47,5 +50,33 @@ public class FoodServiceImpl implements FoodService {
             throw new FoodNotFoundException();
         }
         return food;
+    }
+
+    @Override
+    public List<Food> getByPrefix(String prefix, int userId) throws FoodNotFoundException, UnexpectedErrorException {
+        List<Food> foodList;
+        try {
+            foodList = foodDao.getByPrefix(prefix, userId, FOOD_PREFIX_LIMIT);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+        if (foodList == null || foodList.isEmpty()) {
+            throw new FoodNotFoundException();
+        }
+        return foodList;
+    }
+
+    @Override
+    public List<Food> getAllFoodByUser(int userId) throws FoodNotFoundException, UnexpectedErrorException {
+        List<Food> foodList;
+        try {
+            foodList = foodDao.getByUserId(userId);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+        if (foodList == null || foodList.isEmpty()) {
+            throw new FoodNotFoundException();
+        }
+        return foodList;
     }
 }

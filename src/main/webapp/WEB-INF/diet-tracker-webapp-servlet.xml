@@ -15,9 +15,17 @@
         <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <property name="paramName" value="lang"/>
         </bean>
-        <bean id="sessionInterceptor" class="com.diettracker.webapp.interceptor.SessionInterceptor">
-            <property name="redirectUrl" value="http://localhost:8080/diettracker/"/>
-        </bean>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/images/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/fonts/**"/>
+            <mvc:exclude-mapping path="/notauth"/>
+            <mvc:exclude-mapping path="/register"/>
+            <bean id="sessionInterceptor" class="com.diettracker.webapp.interceptor.SessionInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">

@@ -91,20 +91,6 @@ public class ProfileController extends BaseController {
         return foodList;
     }
 
-    private ModelAndView returnProfilePageForError(String apiErrorCode, User user) {
-        ModelAndView modelAndView = new ModelAndView("profile/profile");
-        List<Meal> mealList = null;
-        try {
-            mealList = mealService.getMealList();
-        } catch (ServiceException ignored) {
-        }
-        modelAndView.addObject("mealList", mealList);
-        modelAndView.addObject("showErrorMessage", true);
-        modelAndView.addObject("errorMessage", apiErrorCode);
-        modelAndView.addObject("user", user);
-        return modelAndView;
-    }
-
     private ModelAndView returnProfilePage(User user) throws ServiceException {
         ModelAndView modelAndView = new ModelAndView("profile/profile");
         List<Meal> mealList = mealService.getMealList();
@@ -112,6 +98,23 @@ public class ProfileController extends BaseController {
         modelAndView.addObject("historyList", historyList);
         modelAndView.addObject("user", user);
         modelAndView.addObject("mealList", mealList);
+        return modelAndView;
+    }
+
+    private ModelAndView returnProfilePageForError(String apiErrorCode, User user) {
+        ModelAndView modelAndView = new ModelAndView("profile/profile");
+        List<Meal> mealList = null;
+        List<History> historyList = null;
+        try {
+            mealList = mealService.getMealList();
+            historyList = historyService.getLasts(user.getId());
+        } catch (ServiceException ignored) {
+        }
+        modelAndView.addObject("historyList", historyList);
+        modelAndView.addObject("mealList", mealList);
+        modelAndView.addObject("showErrorMessage", true);
+        modelAndView.addObject("errorMessage", apiErrorCode);
+        modelAndView.addObject("user", user);
         return modelAndView;
     }
 

@@ -13,24 +13,20 @@ import javax.servlet.http.HttpSession;
  */
 public class SessionInterceptor extends HandlerInterceptorAdapter {
 
-    private String redirectUrl;
     private static final Logger logger = Logger.getLogger(SessionInterceptor.class);
-
-    public void setRedirectUrl(String redirectUrl) {
-        this.redirectUrl = redirectUrl;
-    }
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        if(session == null) {
-            logger.info("@preHandle.SessionTokenInterceptor Session null");
+        logger.info("URI: " + request.getRequestURI());
+        if (session == null) {
+            logger.info("@preHandle.SessionInterceptor is null");
+            response.sendRedirect("notauth");
         }
         SessionInfo sessionInfo = (SessionInfo) request.getSession().getAttribute("sessionInfo");
-        logger.info("@preHandle.SessionTokenInterceptor...");
         if (sessionInfo == null) {
-            logger.info("@preHandle.SessionTokenInterceptor SessionInfo null");
+            logger.info("@preHandle.SessionInterceptor SessionInfo null");
+            response.sendRedirect("notauth");
         }
-        logger.info("@preHandle.SessionTokenInterceptor no exception");
         return true;
     }
 }
