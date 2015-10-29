@@ -17,14 +17,11 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        logger.info("URI: " + request.getRequestURI());
         if (session == null) {
-            logger.info("@preHandle.SessionInterceptor is null");
             response.sendRedirect("notauth");
         }
         SessionInfo sessionInfo = (SessionInfo) request.getSession().getAttribute("sessionInfo");
         if (sessionInfo == null) {
-            logger.info("@preHandle.SessionInterceptor SessionInfo null");
             response.sendRedirect("notauth");
         }
         return true;
