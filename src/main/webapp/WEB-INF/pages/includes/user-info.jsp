@@ -30,8 +30,29 @@
       <div class="col-sm-4"></div>
       <div class="col-sm-8">
         <button type="submit" class="btn btn-default"><spring:message code="text.Update" /></button>
-        <a href="${pageContext.request.contextPath}/logout" class="btn btn-primary"><span class="glyphicon glyphicon-log-out"></span><spring:message code="text.LogOut"/></a>
+        <button type="button" class="confirm-logout btn btn-primary" data-toggle="modal" data-target="#confirmLogoutModal">
+          <span class="glyphicon glyphicon-log-out"></span><spring:message code="text.LogOut"/>
+        </button>
       </div>
     </div>
   </form>
+</div>
+<div class="modal fade" id="confirmLogoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmLogoutModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="confirmLogoutModalLabel"><spring:message code="text.AreYouSureTitle"/></h4>
+      </div>
+      <div class="modal-body">
+        <spring:message code="text.AreYouSureLogout"/>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn secondary"><span class="glyphicon glyphicon-remove"></span><spring:message code="text.No"/></a>
+        <a id="confirmLogoutButton" href="${pageContext.request.contextPath}/logout" role="button" class="btn btn-primary btn-sm">
+          <span class="glyphicon glyphicon-ok"></span><spring:message code="text.Yes"/>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
