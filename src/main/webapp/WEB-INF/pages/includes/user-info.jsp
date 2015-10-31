@@ -5,7 +5,7 @@
     <div class="form-group">
       <label class="control-label col-sm-4" for="name"><spring:message code="text.Name"/></label>
       <div class="col-sm-8">
-        <input type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="<spring:message code="text.Name"/>" value="${user.name}" required="">
+        <input type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="<spring:message code="text.Name"/>" value="${user.name}" required="" autocomplete="off">
       </div>
     </div>
     <div class="form-group">
@@ -17,13 +17,13 @@
     <div class="form-group">
       <label class="control-label col-sm-4" for="password"><spring:message code="text.Password"/></label>
       <div class="col-sm-8">
-        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="<spring:message code="text.Password"/>">
+        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="<spring:message code="text.Password"/>" autocomplete="off">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-4" for="password"><spring:message code="text.ConfirmPassword"/></label>
       <div class="col-sm-8">
-        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="<spring:message code="text.ConfirmPassword"/>">
+        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="<spring:message code="text.ConfirmPassword"/>" autocomplete="off">
       </div>
     </div>
     <div class="form-group">
