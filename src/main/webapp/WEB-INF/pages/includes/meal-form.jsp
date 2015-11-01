@@ -19,23 +19,28 @@
               </select>
           </div>
       </div>
-      <div class="form-group">
-          <label class="control-label col-sm-2" for="foodid"><spring:message code="text.Food"/></label>
-          <div class="col-sm-10">
-              <input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" required="" autocomplete="off"/>
+      <div id="food-list-div">
+          <div id="food-div-id-1" class="form-group">
+              <label class="control-label col-sm-2" for="foodid"><spring:message code="text.Food"/></label>
+              <div class="col-sm-10">
+                  <div class="input-group">
+                      <input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" required="" autocomplete="off"/>
+                      <span class="input-group-addon"><span class="addtextbox glyphicon glyphicon-plus-sign"></span></span>
+                  </div>
+              </div>
           </div>
-      </div>
-      <div class="form-group">
-          <div class="col-sm-2"></div>
-          <div class="col-sm-10">
-              <input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/>
+          <div id="food-div-id-2" class="form-group">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-10">
+                    <input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/>
+              </div>
           </div>
-      </div>
-      <div class="form-group">
-          <div class="col-sm-2"></div>
-          <div class="col-sm-10">
-              <input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/>
-           </div>
+          <div id="food-div-id-3" class="form-group">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-10">
+                    <input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/>
+              </div>
+          </div>
       </div>
       <div class="form-group">
           <label class="control-label col-sm-2" for="time"><spring:message code="text.Time"/></label>
@@ -54,4 +59,36 @@
       </div>
     </form>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/food.time-tr.js"></script>
+</div>
+<script>
+    $(document).ready(function () {
+        var counter = 4;
+        $('.addtextbox').on('click', function() {
+            if(counter > 7) {
+                $("#limitExceedInfo").modal('show');
+                return false;
+            }
+            var newFoodDiv = $(document.createElement('div')).attr("id", 'food-div-id-' + counter).attr("class", 'form-group');
+            newFoodDiv.after().html('<div class="col-sm-2"></div><div class="col-sm-10">'+
+                    '<input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/></div>');
+            newFoodDiv.appendTo("#food-list-div");
+            counter++;
+        });
+    });
+</script>
+<div class="modal fade" id="limitExceedInfo" tabindex="-1" role="dialog" aria-labelledby="limitExceedInfoLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="limitExceedInfoLabel"><span class="glyphicon glyphicon-info-sign"></span><spring:message code="text.Information"/></h4>
+            </div>
+            <div class="modal-body">
+                <spring:message code="text.FoodDivLimitExceed"/>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn secondary"><span class="glyphicon glyphicon-ok"></span><spring:message code="text.Ok"/></a>
+            </div>
+        </div>
+    </div>
 </div>
