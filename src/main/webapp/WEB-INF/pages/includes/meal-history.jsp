@@ -45,19 +45,49 @@
   </div>
 </div>
 
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="errorModalLabel"><spring:message code="text.ErrorInformation"/></h4>
+            </div>
+            <div class="modal-body">
+                <spring:message code="error.ERR_MEAL_NOT_DELETED"/>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn secondary"><spring:message code="text.Close"/></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-  $(document).ready(function () {
-    $('.confirm-delete').on('click', function(e) {
-      e.preventDefault();
-      var id = $(this).data('id');
-      $('#confirmModal').data('id', id).modal('show');
-    });
+    $(document).ready(function () {
+        $('.confirm-delete').on('click', function () {
+            var id = $(this).data('id');
+            $('#confirmModal').data('id', id).modal('show');
+        });
 
-    $('#deleteButton').click(function() {
-      var id = $('#confirmModal').data('id');
-      $('[data-id='+id+']').parents('tr').remove();
-      $('#confirmModal').modal('hide');
-
+        $('#deleteButton').click(function () {
+            var id = $('#confirmModal').data('id');
+            $.ajax({
+                type: 'DELETE',
+                url: '${pageContext.request.contextPath}/delete/' + id,
+                dataType: 'json',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (result) {
+                    $('[data-id=' + id + ']').parents('tr').remove();
+                    $('#confirmModal').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#confirmModal').modal('hide');
+                    $('#errorModal').modal('show');
+                }
+            })
+        });
     });
-  });
 </script>

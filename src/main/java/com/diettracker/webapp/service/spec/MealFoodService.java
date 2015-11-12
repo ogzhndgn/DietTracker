@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface MealFoodService {
     public List<MealFood> insertNewMealFood(UserMeal userMeal, List<Food> foodList) throws UnexpectedErrorException, MealFoodCanNotInserted;
+
+    public void deleteMealFood(int userMealId) throws UnexpectedErrorException;
 }

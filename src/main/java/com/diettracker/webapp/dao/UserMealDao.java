@@ -28,4 +28,29 @@ public class UserMealDao extends DatabaseObject {
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
+
+    public UserMeal get(int id, int userId) throws DAOException {
+        String sql = "SELECT * FROM diettracker.usermeal um WHERE um.id = ? AND um.userid = ?";
+        ResultSetHandler<UserMeal> resultSetHandler = new BeanHandler<>(UserMeal.class);
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {id, userId};
+        try {
+            return queryRunner.query(sql, resultSetHandler, params);
+        } catch (SQLException e) {
+            logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public void delete(int id, int userId) throws DAOException {
+        String sql = "DELETE FROM diettracker.usermeal um WHERE um.id = ? AND um.userid = ?";
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {id, userId};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
 }

@@ -87,7 +87,7 @@
                 <spring:message code="text.FoodDivLimitExceed"/>
             </div>
             <div class="modal-footer">
-                <a data-dismiss="modal" class="btn secondary"><span class="glyphicon glyphicon-ok"></span><spring:message code="text.Ok"/></a>
+                <a data-dismiss="modal" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span><spring:message code="text.Ok"/></a>
             </div>
         </div>
     </div>

@@ -6,10 +6,15 @@ import com.diettracker.webapp.model.History;
 import com.diettracker.webapp.model.SessionInfo;
 import com.diettracker.webapp.model.User;
 import com.diettracker.webapp.service.spec.HistoryService;
+import com.diettracker.webapp.service.spec.MealFoodService;
+import com.diettracker.webapp.service.spec.UserMealService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +28,10 @@ public class HistoryController extends BaseController {
 
     @Autowired
     HistoryService historyService;
+    @Autowired
+    UserMealService userMealService;
+    @Autowired
+    MealFoodService mealFoodService;
 
     @RequestMapping(value = "/history", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showHistroy(HttpServletRequest request) {
@@ -39,10 +48,24 @@ public class HistoryController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public boolean deleteHistoryItem(@PathVariable int id, HttpServletRequest request) {
+        SessionInfo sessionInfo = super.getSessionInfo(request);
+        User user = sessionInfo.getUser();
+        try {
+            userMealService.getUserMeal(id, user.getId());
+            mealFoodService.deleteMealFood(id);
+            userMealService.deleteUserMeal(id, user.getId());
+            return true;
+        } catch (ServiceException ignored) {
+            return false;
+        }
+    }
+
     private ModelAndView returnHistoryErrorPage(ModelAndView modelAndView, String apiErrorCode) {
         modelAndView.addObject("showErrorMessage", true);
         modelAndView.addObject("errorMessage", apiErrorCode);
-//        modelAndView.addObject("historyList", new ArrayList<>());
         return modelAndView;
     }
 }

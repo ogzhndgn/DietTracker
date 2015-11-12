@@ -2,17 +2,17 @@ package com.diettracker.webapp.service.spec;
 
 import com.diettracker.webapp.exception.impl.InvalidDateException;
 import com.diettracker.webapp.exception.impl.InvalidMealException;
+import com.diettracker.webapp.exception.impl.NonExistsingUserMealException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
-import com.diettracker.webapp.model.Food;
 import com.diettracker.webapp.model.UserMeal;
-
-import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 15.7.2015
  */
 public interface UserMealService {
-    public UserMeal addUserMeal(String meal, int userId, String eatingTime) throws UnexpectedErrorException, InvalidMealException, InvalidDateException;
+    UserMeal addUserMeal(String meal, int userId, String eatingTime) throws UnexpectedErrorException, InvalidMealException, InvalidDateException;
 
-    public UserMeal deleteUserMeal(int userMealId, int userId);
+    void deleteUserMeal(int id, int userId) throws UnexpectedErrorException;
+
+    UserMeal getUserMeal(int id, int userId) throws UnexpectedErrorException, NonExistsingUserMealException;
 }

@@ -27,4 +27,15 @@ public class MealFoodDao extends DatabaseObject {
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
+
+    public void delete(int mealFoodId) throws DAOException {
+        String sql = "DELETE FROM diettracker.mealfood mf WHERE mf.usermealid = ?";
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        try {
+            queryRunner.update(sql, mealFoodId);
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
 }

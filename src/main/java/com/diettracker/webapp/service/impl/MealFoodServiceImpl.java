@@ -8,6 +8,7 @@ import com.diettracker.webapp.model.Food;
 import com.diettracker.webapp.model.MealFood;
 import com.diettracker.webapp.model.UserMeal;
 import com.diettracker.webapp.service.spec.MealFoodService;
+import com.diettracker.webapp.service.spec.UserMealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class MealFoodServiceImpl implements MealFoodService {
 
     @Autowired
     MealFoodDao mealFoodDao;
+    @Autowired
+    UserMealService userMealService;
 
     @Override
     public List<MealFood> insertNewMealFood(UserMeal userMeal, List<Food> foodList) throws UnexpectedErrorException, MealFoodCanNotInserted {
@@ -30,6 +33,15 @@ public class MealFoodServiceImpl implements MealFoodService {
         this.insert(foodList, userMealId, mealFoodList);
         this.validateMealFoodList(mealFoodList);
         return mealFoodList;
+    }
+
+    @Override
+    public void deleteMealFood(int userMealId) throws UnexpectedErrorException {
+        try {
+            mealFoodDao.delete(userMealId);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
     }
 
     private void validateMealFoodList(List<MealFood> mealFoodList) throws MealFoodCanNotInserted {

@@ -3,6 +3,7 @@ package com.diettracker.webapp.service.impl;
 import com.diettracker.webapp.dao.UserMealDao;
 import com.diettracker.webapp.exception.impl.InvalidDateException;
 import com.diettracker.webapp.exception.impl.InvalidMealException;
+import com.diettracker.webapp.exception.impl.NonExistsingUserMealException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.model.UserMeal;
@@ -43,9 +44,25 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     @Override
-    public UserMeal deleteUserMeal(int userMealId, int userId) {
+    public void deleteUserMeal(int id, int userId) throws UnexpectedErrorException {
+        try {
+            userMealDao.delete(id, userId);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+    }
 
-        return null;
+    @Override
+    public UserMeal getUserMeal(int id, int userId) throws UnexpectedErrorException, NonExistsingUserMealException {
+        try {
+            UserMeal userMeal = userMealDao.get(id, userId);
+            if (userMeal == null) {
+                throw new NonExistsingUserMealException();
+            }
+            return userMeal;
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
     }
 
     private Timestamp convertToTimestamp(String eatingTime) throws ParseException {
