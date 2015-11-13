@@ -75,13 +75,18 @@
                 type: 'DELETE',
                 url: '${pageContext.request.contextPath}/delete/' + id,
                 dataType: 'json',
-                beforeSend: function(xhr) {
+                beforeSend: function (xhr) {
                     xhr.setRequestHeader("Accept", "application/json");
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
                 success: function (result) {
-                    $('[data-id=' + id + ']').parents('tr').remove();
-                    $('#confirmModal').modal('hide');
+                    if (result == true) {
+                        $('[data-id=' + id + ']').parents('tr').remove();
+                        $('#confirmModal').modal('hide');
+                    } else {
+                        $('#confirmModal').modal('hide');
+                        $('#errorModal').modal('show');
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#confirmModal').modal('hide');
