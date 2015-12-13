@@ -8,6 +8,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,19 @@ public class HistoryDao extends DatabaseObject {
     }
 
     public List<History> get(int userId) throws DAOException {
+        StringBuilder stringBuilder = new StringBuilder("SELECT * FROM diettracker.history WHERE userid = ? ORDER BY eatingtime DESC");
+        ResultSetHandler<List<History>> resultSetHandler = new BeanListHandler<>(History.class);
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {userId};
+        try {
+            return queryRunner.query(stringBuilder.toString(), resultSetHandler, params);
+        } catch (SQLException e) {
+            logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<History> getByFilter(int mealId, Date mealTimeBegin, Date mealTimeEnd, String foodSearch, int userId) throws DAOException {
         StringBuilder stringBuilder = new StringBuilder("SELECT * FROM diettracker.history WHERE userid = ? ORDER BY eatingtime DESC");
         ResultSetHandler<List<History>> resultSetHandler = new BeanListHandler<>(History.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());

@@ -1,6 +1,7 @@
 package com.diettracker.webapp.service.spec;
 
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
+import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.History;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface HistoryService {
     public List<History> getLasts(int userId) throws UnexpectedErrorException;
 
     public List<History> getAll(int userId) throws UnexpectedErrorException;
+
+    public List<History> search(String mealId, String mealTimeBegin, String mealTimeEnd, String foodSearch, int userId) throws ServiceException;
 }

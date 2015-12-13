@@ -60,22 +60,7 @@
     </form>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/food.time-tr.js"></script>
 </div>
-<script>
-    $(document).ready(function () {
-        var counter = 4;
-        $('.addtextbox').on('click', function() {
-            if(counter > 7) {
-                $("#limitExceedInfo").modal('show');
-                return false;
-            }
-            var newFoodDiv = $(document.createElement('div')).attr("id", 'food-div-id-' + counter).attr("class", 'form-group');
-            newFoodDiv.after().html('<div class="col-sm-2"></div><div class="col-sm-10">'+
-                    '<input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/></div>');
-            newFoodDiv.appendTo("#food-list-div");
-            counter++;
-        });
-    });
-</script>
+
 <div class="modal fade" id="limitExceedInfo" tabindex="-1" role="dialog" aria-labelledby="limitExceedInfoLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -92,3 +77,19 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var counter = 4;
+        $('.addtextbox').on('click', function() {
+            if(counter > 7) {
+                $("#limitExceedInfo").modal('show');
+                return false;
+            }
+            var newFoodDiv = $(document.createElement('div')).attr("id", 'food-div-id-' + counter).attr("class", 'form-group');
+            newFoodDiv.after().html('<div class="col-sm-2"></div><div class="col-sm-10">'+
+                    '<input type="text" name="food" id="foodid" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/></div>');
+            newFoodDiv.appendTo("#food-list-div");
+            counter++;
+        });
+    });
+</script>

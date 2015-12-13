@@ -1,12 +1,14 @@
 package com.diettracker.webapp.controller;
 
 import com.diettracker.webapp.controller.base.BaseController;
+import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.History;
 import com.diettracker.webapp.model.SessionInfo;
 import com.diettracker.webapp.model.User;
 import com.diettracker.webapp.service.spec.HistoryService;
 import com.diettracker.webapp.service.spec.MealFoodService;
+import com.diettracker.webapp.service.spec.MealService;
 import com.diettracker.webapp.service.spec.UserMealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,19 +34,41 @@ public class HistoryController extends BaseController {
     UserMealService userMealService;
     @Autowired
     MealFoodService mealFoodService;
+    @Autowired
+    MealService mealService;
 
-    @RequestMapping(value = "/history", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView showHistroy(HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView("history/history");
+    @RequestMapping(value = "/history", method = RequestMethod.GET)
+    public ModelAndView showHistroy(HttpServletRequest request) throws UnexpectedErrorException {
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
+        return this.getHistory(historyService.getAll(user.getId()));
+    }
+
+    @RequestMapping(value = "/history", method = RequestMethod.POST)
+    public ModelAndView searchForMeal(HttpServletRequest request) throws UnexpectedErrorException {
+        SessionInfo sessionInfo = super.getSessionInfo(request);
+        User user = sessionInfo.getUser();
+        String mealId = request.getParameter("meal");
+        String mealTimeBegin = request.getParameter("meal-time-begin");
+        String mealTimeEnd = request.getParameter("meal-time-end");
+        String foodSearch = request.getParameter("food-search");
         try {
-            List<History> historyList = historyService.getAll(user.getId());
-            modelAndView.addObject("showErrorMessage", false);
+            List<History> historyList = historyService.search(mealId, mealTimeBegin, mealTimeEnd, foodSearch, user.getId());
+            return this.getHistory(historyList);
+        } catch (ServiceException e) {
+            return this.returnHistoryErrorPage(e.getMessage());
+        }
+    }
+
+    private ModelAndView getHistory(List<History> historyList) {
+        ModelAndView modelAndView = new ModelAndView("history/history");
+        try {
             modelAndView.addObject("historyList", historyList);
+            modelAndView.addObject("mealList", mealService.getMealList());
+            modelAndView.addObject("showErrorMessage", false);
             return modelAndView;
         } catch (ServiceException e) {
-            return returnHistoryErrorPage(modelAndView, e.getMessage());
+            return this.returnHistoryErrorPage(e.getMessage());
         }
     }
 
@@ -63,7 +87,12 @@ public class HistoryController extends BaseController {
         }
     }
 
-    private ModelAndView returnHistoryErrorPage(ModelAndView modelAndView, String apiErrorCode) {
+    private ModelAndView returnHistoryErrorPage(String apiErrorCode) {
+        ModelAndView modelAndView = new ModelAndView("history/history");
+        try {
+            modelAndView.addObject("mealList", mealService.getMealList());
+        } catch (ServiceException ignored) {
+        }
         modelAndView.addObject("showErrorMessage", true);
         modelAndView.addObject("errorMessage", apiErrorCode);
         return modelAndView;
