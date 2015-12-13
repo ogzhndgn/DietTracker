@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
  * @author the Poet <dogan_oguzhan@hotmail.com> 4.7.2015
  */
 @Repository
-public class DatabaseObject {
+class DatabaseObject {
     @Autowired
     private BasicDataSource dataSource;
 

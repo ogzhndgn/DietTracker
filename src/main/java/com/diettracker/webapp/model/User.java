@@ -1,7 +1,5 @@
 package com.diettracker.webapp.model;
 
-import java.util.Random;
-
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 20.6.2015
  */

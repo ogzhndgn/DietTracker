@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class FoodServiceImpl implements FoodService {
 
-    public static final int FOOD_PREFIX_LIMIT = 10;
+    private static final int FOOD_PREFIX_LIMIT = 10;
     @Autowired
     FoodDao foodDao;
 

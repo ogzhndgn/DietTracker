@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 public class BaseController {
-    public static final String SESSION_VAR = "sessionInfo";
+    private static final String SESSION_VAR = "sessionInfo";
     @Autowired
-    IdGenerator idGenerator;
+    private IdGenerator idGenerator;
 
     protected void setSessionInfo(User user, HttpServletRequest request) {
         SessionInfo sessionInfo = new SessionInfo();

@@ -70,8 +70,7 @@ public class UserDao extends DatabaseObject {
         String sql = "INSERT INTO diettracker.user (email, passwordhash, passwordsalt, active) VALUES (?,?,?,?)";
         ResultSetHandler<User> resultSetHandler = new BeanHandler<>(User.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());
-        boolean DEFAULT_ACTIVE = true;
-        Object[] params = {email, passwordHash, passwordSalt, DEFAULT_ACTIVE};
+        Object[] params = {email, passwordHash, passwordSalt, true};
         try {
             return queryRunner.insert(sql, resultSetHandler, params);
         } catch (SQLException e) {

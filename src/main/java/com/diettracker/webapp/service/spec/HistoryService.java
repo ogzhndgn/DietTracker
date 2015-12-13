@@ -10,9 +10,9 @@ import java.util.List;
  * @author the Poet <dogan_oguzhan@hotmail.com> 22.7.2015
  */
 public interface HistoryService {
-    public List<History> getLasts(int userId) throws UnexpectedErrorException;
+    List<History> getLasts(int userId) throws UnexpectedErrorException;
 
-    public List<History> getAll(int userId) throws UnexpectedErrorException;
+    List<History> getAll(int userId) throws UnexpectedErrorException;
 
-    public List<History> search(String mealId, String mealTimeBegin, String mealTimeEnd, String foodSearch, int userId) throws ServiceException;
+    List<History> search(String mealId, String mealTimeBegin, String mealTimeEnd, String foodSearch, int userId) throws ServiceException;
 }

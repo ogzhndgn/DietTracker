@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class FoodController extends BaseController {
     @Autowired
-    FoodService foodService;
+    private FoodService foodService;
 
     @RequestMapping(value = "/getfood", method = RequestMethod.GET)
     @ResponseBody
