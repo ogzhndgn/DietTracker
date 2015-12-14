@@ -5,6 +5,7 @@ import com.diettracker.webapp.exception.impl.*;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.History;
+import com.diettracker.webapp.model.Meal;
 import com.diettracker.webapp.service.spec.HistoryService;
 import com.diettracker.webapp.service.spec.MealService;
 import org.apache.commons.lang3.StringUtils;
@@ -49,13 +50,13 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<History> search(String mealIdStr, String mealTimeBeginStr, String mealTimeEndStr, String foodSearch, int userId) throws ServiceException {
+    public List<History> search(String mealId, String mealTimeBeginStr, String mealTimeEndStr, String foodSearch, int userId) throws ServiceException {
         this.checkBeginAndEndDate(mealTimeBeginStr, mealTimeEndStr);
-        int mealId = this.getMealId(mealIdStr);
+        String mealCode = this.getMealCode(mealId);
         Date mealTimeBegin = this.convertDate(mealTimeBeginStr);
         Date mealTimeEnd = this.convertDate(mealTimeEndStr);
         try {
-            return historyDao.getByFilter(mealId, mealTimeBegin, mealTimeEnd, foodSearch, userId);
+            return historyDao.getByFilter(mealCode, mealTimeBegin, mealTimeEnd, foodSearch, userId);
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }
@@ -74,15 +75,17 @@ public class HistoryServiceImpl implements HistoryService {
         }
     }
 
-    private int getMealId(String mealIdStr) throws UnexpectedErrorException, InvalidMealException {
+    private String getMealCode(String mealIdStr) throws UnexpectedErrorException, InvalidMealException {
+        String mealCode = "";
         try {
             int mealId = Integer.parseInt(mealIdStr);
             if (mealId > DUMMY_EMPTY_MEAL_ID) {
-                mealService.getMealById(mealId);
+                Meal meal = mealService.getMealById(mealId);
+                mealCode = meal.getCode();
             }
-            return mealId;
+            return mealCode;
         } catch (NumberFormatException nfe) {
-            return DUMMY_EMPTY_MEAL_ID;
+            return mealCode;
         }
     }
 

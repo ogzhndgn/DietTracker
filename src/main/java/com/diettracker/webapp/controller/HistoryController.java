@@ -39,13 +39,23 @@ public class HistoryController extends BaseController {
 
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView showHistroy(HttpServletRequest request) throws UnexpectedErrorException {
+        ModelAndView modelAndView = new ModelAndView("history/history");
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
-        return this.getHistory(historyService.getAll(user.getId()));
+        List<History> historyList = historyService.getAll(user.getId());
+        try {
+            modelAndView.addObject("historyList", historyList);
+            modelAndView.addObject("mealList", mealService.getMealList());
+            modelAndView.addObject("showErrorMessage", false);
+            return modelAndView;
+        } catch (ServiceException e) {
+            return this.returnHistoryErrorPage(e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/history", method = RequestMethod.POST)
     public ModelAndView searchForMeal(HttpServletRequest request) throws UnexpectedErrorException {
+        ModelAndView modelAndView = new ModelAndView("history/history");
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
         String mealId = request.getParameter("meal");
@@ -54,18 +64,13 @@ public class HistoryController extends BaseController {
         String foodSearch = request.getParameter("food-search");
         try {
             List<History> historyList = historyService.search(mealId, mealTimeBegin, mealTimeEnd, foodSearch, user.getId());
-            return this.getHistory(historyList);
-        } catch (ServiceException e) {
-            return this.returnHistoryErrorPage(e.getMessage());
-        }
-    }
-
-    private ModelAndView getHistory(List<History> historyList) {
-        ModelAndView modelAndView = new ModelAndView("history/history");
-        try {
             modelAndView.addObject("historyList", historyList);
             modelAndView.addObject("mealList", mealService.getMealList());
             modelAndView.addObject("showErrorMessage", false);
+            modelAndView.addObject("mealId", mealId);
+            modelAndView.addObject("mealTimeBegin", mealTimeBegin);
+            modelAndView.addObject("mealTimeEnd", mealTimeEnd);
+            modelAndView.addObject("foodSearch", foodSearch);
             return modelAndView;
         } catch (ServiceException e) {
             return this.returnHistoryErrorPage(e.getMessage());

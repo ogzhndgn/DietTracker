@@ -19,26 +19,34 @@
                 <div class="form-group">
                     <div class="col-sm-2">
                         <select class="form-control" id="meal-select" name="meal">
-                            <option><spring:message code="text.PleaseSelect"/></option>
+                            <option value="0"><spring:message code="text.PleaseSelect"/></option>
                             <c:forEach var="meal" items="${mealList}">
-                                <option value="${meal.id}"><spring:message code="text.${meal.code}"/></option>
+                                <c:choose>
+                                    <c:when test="${mealId == meal.id}">
+                                        <option value="${meal.id}" selected>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${meal.id}">
+                                    </c:otherwise>
+                                </c:choose>
+                                <spring:message code="text.${meal.code}"/></option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group date" data-provide="datepicker" id="meal-time-begin-div">
-                            <input type="text" name="meal-time-begin" id="meal-time-begin" class="form-control" placeholder="<spring:message code="text.Time"/>" value="" autocomplete="off"/>
+                            <input type="text" name="meal-time-begin" id="meal-time-begin" class="form-control" placeholder="<spring:message code="text.Time"/>" value="${mealTimeBegin}" autocomplete="off"/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="input-group date" data-provide="datepicker" id="meal-time-end-div">
-                            <input type="text" name="meal-time-end" id="meal-time-end" class="form-control" placeholder="<spring:message code="text.Time"/>" value="" autocomplete="off"/>
+                            <input type="text" name="meal-time-end" id="meal-time-end" class="form-control" placeholder="<spring:message code="text.Time"/>" value="${mealTimeEnd}" autocomplete="off"/>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <input type="text" name="food-search" id="food-search" class="form-control" placeholder="<spring:message code="text.Food"/>" value="" autocomplete="off"/>
+                        <input type="text" name="food-search" id="food-search" class="form-control" placeholder="<spring:message code="text.Food"/>" value="${foodSearch}" autocomplete="off"/>
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-default"><spring:message code="text.Search"/></button>
