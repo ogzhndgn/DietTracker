@@ -19,7 +19,7 @@
                 <div class="form-group">
                     <div class="col-sm-2">
                         <select class="form-control" id="meal-select" name="meal">
-                            <option value="0"><spring:message code="text.PleaseSelect"/></option>
+                            <option value="0"><spring:message code="text.All"/></option>
                             <c:forEach var="meal" items="${mealList}">
                                 <c:choose>
                                     <c:when test="${mealId == meal.id}">
