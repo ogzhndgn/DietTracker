@@ -17,7 +17,14 @@
     </div>
     <div class="row">
         <%@include file="../includes/empty-col-2.jsp"%>
-        <%@include file="../includes/meal-history.jsp" %>
+        <c:choose>
+            <c:when test="${not empty historyList}">
+                <%@include file="../includes/meal-history.jsp" %>
+            </c:when>
+            <c:otherwise>
+                <div class="col-md-8 alert alert-danger" role="alert"><h4 align="center"><spring:message code="text.NoHistoryToShow"/></h4></div>
+            </c:otherwise>
+        </c:choose>
         <%@include file="../includes/empty-col-2.jsp"%>
     </div>
     <%--<%@include file="../includes/footer.jsp"%>--%>
