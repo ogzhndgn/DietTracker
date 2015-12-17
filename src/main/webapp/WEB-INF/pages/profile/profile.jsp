@@ -14,8 +14,8 @@
         <c:when test="${not empty historyList}">
             <div class="row">
                 <%@include file="../includes/empty-col-2.jsp" %>
-                <div class="col-md-6"><caption><h3><spring:message code="text.MealHistory"/></h3></caption>
-                </div><div class="col-md-2"><a href="${pageContext.request.contextPath}/history" class="btn btn-primary"role="button"><spring:message code="text.SeeMore"/></a></div>
+                <div class="col-md-3"><h3><a href="${pageContext.request.contextPath}/history"><spring:message code="text.MealHistory"/></a></h3></div>
+                <div class="col-md-5"></div>
                 <%@include file="../includes/empty-col-2.jsp" %>
             </div>
             <div class="row">
