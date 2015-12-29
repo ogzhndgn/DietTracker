@@ -1,5 +1,5 @@
 <div class="col-md-8">
-  <table class="table table-striped table-bordered">
+  <table class="table table-hover table-striped">
     <thead>
     <tr>
       <th><spring:message code="text.Meal"/></th>
