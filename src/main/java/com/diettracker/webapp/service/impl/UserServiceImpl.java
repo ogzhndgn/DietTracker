@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loginUser(String email, String password) throws ServiceException {
-        //todo this implementation may be changed according to business rules.
         try {
             User user = this.getByEmail(email);
             String passwordSalt = user.getPasswordSalt();
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
         throw new UserCanNotUpdatedException();
     }
 
-    private void changePassword(int id, String password) throws UnexpectedErrorException, PasswordCanNotChangedException {
+    private void changePassword(int id, String password) throws UnexpectedErrorException, PasswordCanNotChangedException, SaltGeneratingException, PasswordHashException {
         String passwordSalt = hashService.getPasswordSalt();
         String passwordHash = hashService.hashPassword(password, passwordSalt);
         int updatedRowCount;
@@ -101,7 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private User addUser(String email, String password) throws UserCanNotCreatedException {
+    private User addUser(String email, String password) throws UserCanNotCreatedException, SaltGeneratingException, PasswordHashException {
         try {
             String passwordSalt = hashService.getPasswordSalt();
             String passwordHash = hashService.hashPassword(password, passwordSalt);
