@@ -9,7 +9,6 @@ import com.diettracker.webapp.service.security.HashService;
 import com.diettracker.webapp.service.spec.UserService;
 import com.diettracker.webapp.service.util.FormValidator;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,6 @@ public class UserServiceImpl implements UserService {
     FormValidator formValidator;
     @Autowired
     HashService hashService;
-
-    private static final Logger logger = Logger.getLogger(UserService.class);
 
     @Override
     public User registerUser(String email, String password, String confirmPassword) throws ServiceException {
