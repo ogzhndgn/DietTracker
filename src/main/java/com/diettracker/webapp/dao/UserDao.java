@@ -25,7 +25,7 @@ public class UserDao extends DatabaseObject {
         try {
             return queryRunner.query(stringBuilder.toString(), resultSetHandler);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
             return null;
         }
     }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="log-path">D:/Development/Logs/diettracker</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="trace-log" fileName="${log-path}/diet-tracker-trace.log" filePattern="${log-path}/diet-tracker-trace-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="error-log" fileName="${log-path}/diet-tracker-error.log" filePattern="${log-path}/diet-tracker-error-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.diettracker.webapp" additivity="false">
+            <appender-ref ref="trace-log" level="debug"/>
+            <appender-ref ref="error-log" level="error"/>
+        </Logger>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="trace-log"/>
+        </Root>
+    </Loggers>
+</Configuration>

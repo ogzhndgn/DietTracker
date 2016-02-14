@@ -1,7 +1,8 @@
 package com.diettracker.webapp.dao;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ class DatabaseObject {
     @Autowired
     private BasicDataSource dataSource;
 
-    final Logger logger = Logger.getLogger(UserDao.class);
+    final Logger logger = LogManager.getLogger(DatabaseObject.class);
 
     BasicDataSource getDataSource() {
         return dataSource;

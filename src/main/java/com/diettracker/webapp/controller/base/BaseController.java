@@ -3,6 +3,8 @@ package com.diettracker.webapp.controller.base;
 import com.diettracker.webapp.model.SessionInfo;
 import com.diettracker.webapp.model.User;
 import com.diettracker.webapp.service.security.IdGenerator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class BaseController {
     private static final String SESSION_VAR = "sessionInfo";
+    protected final Logger logger = LogManager.getLogger(BaseController.class);
+
     @Autowired
     private IdGenerator idGenerator;
 

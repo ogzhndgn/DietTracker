@@ -26,6 +26,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView loginGet() {
+        logger.info("Login form loaded...");
         ModelAndView modelAndView = new ModelAndView("login/login");
         modelAndView.addObject("showRegisterForm", false);
         modelAndView.addObject("showLoginForm", true);
@@ -35,12 +36,14 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ModelAndView loginPost(HttpServletRequest request) {
         try {
+            logger.info("Login attempt for " + request.getParameter("email"));
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             User user = userService.loginUser(email, password);
             super.setSessionInfo(user, request);
             return new ModelAndView("redirect:/profile");
         } catch (ServiceException e) {
+            logger.error("Invalid login for " + request.getParameter("email"));
             return this.returnLoginForm(e.getMessage());
         }
     }
