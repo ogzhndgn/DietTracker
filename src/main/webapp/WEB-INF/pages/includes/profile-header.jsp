@@ -6,6 +6,15 @@
         <spring:message code="text.Title"/>
       </h1>
     </div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav">
+          <li><a href="${pageContext.request.contextPath}/profile"><spring:message code="text.MenuItem1"/></a></li>
+          <li><a href="${pageContext.request.contextPath}/history"><spring:message code="text.MenuItem2"/></a></li>
+          <li class="navbar-right"><a href="${pageContext.request.contextPath}/logout"><spring:message code="text.LogOut"/></a></li>
+        </ul>
+      </div>
+    </nav>
     <c:if test="${showErrorMessage}">
       <div class="alert alert-danger fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
