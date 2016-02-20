@@ -1,16 +1,20 @@
-<div class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container">
-        <div class="row clearfix">
-            <div class="col-md-5 column"></div>
-            <div class="col-md-2 column">
-                <p>
-                    <a class="btn" data-toggle="modal" data-target="#dietTrackerModal"><spring:message code="text.Title"/></a>
-                </p>
+<%@include file="empty-col-2.jsp" %>
+<div class="col-md-8">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-md-5 column"></div>
+                <div class="col-md-2 column">
+                    <p>
+                        <a class="btn" data-toggle="modal" data-target="#dietTrackerModal"><spring:message code="text.Title"/></a>
+                    </p>
+                </div>
+                <div class="col-md-5 column"></div>
             </div>
-            <div class="col-md-5 column"></div>
         </div>
+    </nav>
 </div>
-</div>
+<%@include file="empty-col-2.jsp" %>
 
 <div class="modal fade" id="dietTrackerModal" tabindex="-1" role="dialog" aria-labelledby="dietTrackerModalLabel">
     <div class="modal-dialog" role="document">

@@ -27,7 +27,7 @@
         </c:choose>
         <%@include file="../includes/empty-col-2.jsp"%>
     </div>
-    <%--<%@include file="../includes/footer.jsp"%>--%>
+    <%@include file="../includes/footer.jsp"%>
 </div>
 </body>
 </html>

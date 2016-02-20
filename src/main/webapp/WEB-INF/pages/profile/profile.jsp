@@ -32,7 +32,7 @@
             </div>
         </c:otherwise>
     </c:choose>
-    <%--<%@include file="../includes/footer.jsp"%>--%>
+    <%@include file="../includes/footer.jsp"%>
 </div>
 </body>
 </html>
