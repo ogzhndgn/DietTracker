@@ -11,6 +11,7 @@
         <ul class="nav navbar-nav">
           <li><a href="${pageContext.request.contextPath}/profile"><spring:message code="text.MenuItem1"/></a></li>
           <li><a href="${pageContext.request.contextPath}/history"><spring:message code="text.MenuItem2"/></a></li>
+          <li><a href="${pageContext.request.contextPath}/weighttrack"><spring:message code="text.MenuItem3"/></a></li>
           <li class="navbar-right"><a href="${pageContext.request.contextPath}/logout"><spring:message code="text.LogOut"/></a></li>
         </ul>
       </div>

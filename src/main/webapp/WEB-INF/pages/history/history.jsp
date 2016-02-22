@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <%@include file="../includes/empty-col-2.jsp"%>
-        <%@include file="../includes/meal-search-form.jsp"%>
+        <%@include file="meal-search-form.jsp"%>
         <%@include file="../includes/empty-col-2.jsp"%>
     </div>
     <div class="row">

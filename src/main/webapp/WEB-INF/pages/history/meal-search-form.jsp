@@ -1,5 +1,3 @@
-<script src="${pageContext.request.contextPath}/js/moment.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/moment-with-locales.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap-datepicker.min.js"></script>
 <link href="${pageContext.request.contextPath}/css/bootstrap-datepicker.min.css" rel="stylesheet">
 <div class="col-md-8">
