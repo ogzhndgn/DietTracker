@@ -10,6 +10,14 @@
     <%@include file="weight-chart.jsp"%>
     <%@include file="../includes/empty-col-2.jsp" %>
   </div>
+  <div class="row">
+    <%@include file="../includes/empty-col-2.jsp"%>
+    <c:choose>
+      <c:when test="${not empty weightList}">
+          <%@include file="weight-history.jsp"%>
+      </c:when>
+    </c:choose>
+  </div>
   <%@include file="../includes/footer.jsp"%>
 </div>
 </body>

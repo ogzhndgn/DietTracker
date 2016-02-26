@@ -1,16 +1,19 @@
 package com.diettracker.webapp.dao;
 
 import com.diettracker.webapp.exception.spec.DAOException;
+import com.diettracker.webapp.model.History;
 import com.diettracker.webapp.model.UserMeal;
 import com.diettracker.webapp.model.Weight;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 23.02.2016.
@@ -28,6 +31,31 @@ public class WeightDao extends DatabaseObject {
         } catch (SQLException e) {
             e.printStackTrace();
             logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<Weight> get(int userId) throws DAOException {
+        StringBuilder stringBuilder = new StringBuilder("SELECT * FROM diettracker.weight WHERE userid = ? ORDER BY weightdate DESC, createddate DESC");
+        ResultSetHandler<List<Weight>> resultSetHandler = new BeanListHandler<>(Weight.class);
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {userId};
+        try {
+            return queryRunner.query(stringBuilder.toString(), resultSetHandler, params);
+        } catch (SQLException e) {
+            logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public void delete(int id, int userId) throws DAOException {
+        String sql = "DELETE FROM diettracker.weight dw WHERE dw.id = ? AND dw.userid = ?";
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {id, userId};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }

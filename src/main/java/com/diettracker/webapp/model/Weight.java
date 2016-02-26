@@ -12,6 +12,7 @@ public class Weight {
     private double weight;
     private Date weightDate;
     private Timestamp createdDate;
+    private String status;
 
     public int getId() {
         return id;
@@ -51,5 +52,25 @@ public class Weight {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Weight{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", weight=" + weight +
+                ", weightDate=" + weightDate +
+                ", createdDate=" + createdDate +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
