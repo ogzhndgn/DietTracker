@@ -35,7 +35,7 @@ public class WeightTrackController extends BaseController {
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
         try {
-            this.setWeightListToModel(modelAndView, user);
+            this.setWeightListToModel(modelAndView, user.getId());
         } catch (ServiceException se) {
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());
@@ -44,7 +44,7 @@ public class WeightTrackController extends BaseController {
     }
 
     @RequestMapping(value = "/weighttrack", method = RequestMethod.POST, params = "add_weight")
-    public ModelAndView addWeight(HttpServletRequest request) {
+    public ModelAndView addWeight(HttpServletRequest request) throws UnexpectedErrorException {
         ModelAndView modelAndView = new ModelAndView("weighttrack/weighttrack");
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
@@ -53,8 +53,9 @@ public class WeightTrackController extends BaseController {
         logger.info("Weight-date: " + weightDate + " weight: " + weight);
         try {
             weightService.addWeight(user.getId(), weight, weightDate);
-            this.setWeightListToModel(modelAndView, user);
+            this.setWeightListToModel(modelAndView, user.getId());
         } catch (ServiceException se) {
+            this.setWeightListToModel(modelAndView, user.getId());
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());
             return modelAndView;
@@ -77,8 +78,8 @@ public class WeightTrackController extends BaseController {
         }
     }
 
-    private void setWeightListToModel(ModelAndView modelAndView, User user) throws UnexpectedErrorException {
-        List<Weight> weightList = weightService.getWeights(user.getId());
+    private void setWeightListToModel(ModelAndView modelAndView, int userId) throws UnexpectedErrorException {
+        List<Weight> weightList = weightService.getWeights(userId);
         Collections.reverse(weightList);
         String weightValueJSON = weightService.getWeightValueJSON(weightList);
         String weightDateJSON = weightService.getWeightDateJSON(weightList);

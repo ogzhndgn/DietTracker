@@ -3,6 +3,7 @@ package com.diettracker.webapp.service.impl;
 import com.diettracker.webapp.dao.WeightDao;
 import com.diettracker.webapp.exception.impl.FoodNotFoundException;
 import com.diettracker.webapp.exception.impl.InvalidDateException;
+import com.diettracker.webapp.exception.impl.InvalidWeightException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.model.Weight;
@@ -30,7 +31,7 @@ public class WeightServiceImpl implements WeightService {
     WeightDao weightDao;
 
     @Override
-    public Weight addWeight(int userId, String weightStr, String weightDateStr) throws InvalidDateException, FoodNotFoundException, UnexpectedErrorException {
+    public Weight addWeight(int userId, String weightStr, String weightDateStr) throws InvalidDateException, UnexpectedErrorException, InvalidWeightException {
         try {
             double weight = Double.parseDouble(weightStr);
             Date weightDate = DateUtils.parseDate(weightDateStr, "dd.MM.yyyy");
@@ -38,7 +39,7 @@ public class WeightServiceImpl implements WeightService {
         } catch (ParseException e) {
             throw new InvalidDateException();
         } catch (NumberFormatException ne) {
-            throw new FoodNotFoundException(); //TODO add a new exception here.
+            throw new InvalidWeightException(); //TODO add a new exception here.
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }
@@ -48,9 +49,6 @@ public class WeightServiceImpl implements WeightService {
     public List<Weight> getWeights(int userId) throws UnexpectedErrorException {
         try {
             List<Weight> weightList = weightDao.get(userId);
-            for (Weight weight : weightList) {
-                logger.info(weight.toString());
-            }
             return this.setStatuses(weightList);
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
@@ -68,35 +66,32 @@ public class WeightServiceImpl implements WeightService {
 
     @Override
     public String getWeightValueJSON(List<Weight> weightList) {
-        ObjectMapper objectMapper = new ObjectMapper();
         List<Double> weightValueList = new ArrayList<>();
         for (Weight weight : weightList) {
             weightValueList.add(weight.getWeight());
         }
-        String jsonWeightValue = "";
-        try {
-            jsonWeightValue = objectMapper.writeValueAsString(weightValueList);
-        } catch (JsonProcessingException e) {
-            logger.error("Error while converting weight to JSON: ", e);
-        }
-        return jsonWeightValue;
+        return this.convertObjectToJsonString(weightValueList);
     }
 
     @Override
     public String getWeightDateJSON(List<Weight> weightList) {
-        ObjectMapper objectMapper = new ObjectMapper();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM");
         List<String> weightDateList = new ArrayList<>();
         for (Weight weight : weightList) {
             weightDateList.add(dateFormat.format(weight.getWeightDate()));
         }
-        String jsonWeightDate = "";
+        return this.convertObjectToJsonString(weightDateList);
+    }
+
+    private String convertObjectToJsonString(Object object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = "";
         try {
-            jsonWeightDate = objectMapper.writeValueAsString(weightDateList);
+            jsonString = objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             logger.error("Error while converting weight to JSON: ", e);
         }
-        return jsonWeightDate;
+        return jsonString;
     }
 
     private List<Weight> setStatuses(List<Weight> weightList) {
