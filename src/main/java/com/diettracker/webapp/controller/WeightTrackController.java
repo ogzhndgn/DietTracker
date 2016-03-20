@@ -50,7 +50,6 @@ public class WeightTrackController extends BaseController {
         User user = sessionInfo.getUser();
         String weightDate = request.getParameter("weight-date");
         String weight = request.getParameter("weight");
-        logger.info("Weight-date: " + weightDate + " weight: " + weight);
         try {
             weightService.addWeight(user.getId(), weight, weightDate);
             this.setWeightListToModel(modelAndView, user.getId());
