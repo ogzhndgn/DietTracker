@@ -57,7 +57,7 @@
                                             <div class="col-lg-12">
                                                 <div class="text-center">
                                                     <%--<a href="${pageContext.request.contextPath}/forgotpassword" tabindex="5" class="forgot-password"><spring:message code="text.ForgotPassword"/></a>--%>
-                                                    <span class="version-name">v1.3.0 Dublin</span>
+                                                    <span class="version-name">v1.4.0 Edinburgh</span>
                                                 </div>
                                             </div>
                                         </div>
