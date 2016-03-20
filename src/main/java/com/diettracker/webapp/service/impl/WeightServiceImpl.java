@@ -7,6 +7,8 @@ import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.model.Weight;
 import com.diettracker.webapp.service.spec.WeightService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 23.02.2016.
@@ -62,6 +64,39 @@ public class WeightServiceImpl implements WeightService {
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }
+    }
+
+    @Override
+    public String getWeightValueJSON(List<Weight> weightList) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Double> weightValueList = new ArrayList<>();
+        for (Weight weight : weightList) {
+            weightValueList.add(weight.getWeight());
+        }
+        String jsonWeightValue = "";
+        try {
+            jsonWeightValue = objectMapper.writeValueAsString(weightValueList);
+        } catch (JsonProcessingException e) {
+            logger.error("Error while converting weight to JSON: ", e);
+        }
+        return jsonWeightValue;
+    }
+
+    @Override
+    public String getWeightDateJSON(List<Weight> weightList) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MMM");
+        List<String> weightDateList = new ArrayList<>();
+        for (Weight weight : weightList) {
+            weightDateList.add(dateFormat.format(weight.getWeightDate()));
+        }
+        String jsonWeightDate = "";
+        try {
+            jsonWeightDate = objectMapper.writeValueAsString(weightDateList);
+        } catch (JsonProcessingException e) {
+            logger.error("Error while converting weight to JSON: ", e);
+        }
+        return jsonWeightDate;
     }
 
     private List<Weight> setStatuses(List<Weight> weightList) {

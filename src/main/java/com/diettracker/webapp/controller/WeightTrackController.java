@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,8 +35,7 @@ public class WeightTrackController extends BaseController {
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
         try {
-            List<Weight> weightList = weightService.getWeights(user.getId());
-            modelAndView.addObject("weightList", weightList);
+            this.setWeightListToModel(modelAndView, user);
         } catch (ServiceException se) {
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());
@@ -53,8 +53,7 @@ public class WeightTrackController extends BaseController {
         logger.info("Weight-date: " + weightDate + " weight: " + weight);
         try {
             weightService.addWeight(user.getId(), weight, weightDate);
-            List<Weight> weightList = weightService.getWeights(user.getId());
-            modelAndView.addObject("weightList", weightList);
+            this.setWeightListToModel(modelAndView, user);
         } catch (ServiceException se) {
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());
@@ -76,5 +75,16 @@ public class WeightTrackController extends BaseController {
         } catch (ServiceException ignored) {
             return false;
         }
+    }
+
+    private void setWeightListToModel(ModelAndView modelAndView, User user) throws UnexpectedErrorException {
+        List<Weight> weightList = weightService.getWeights(user.getId());
+        Collections.reverse(weightList);
+        String weightValueJSON = weightService.getWeightValueJSON(weightList);
+        String weightDateJSON = weightService.getWeightDateJSON(weightList);
+        modelAndView.addObject("weightValueJSON", weightValueJSON);
+        modelAndView.addObject("weightDateJSON", weightDateJSON);
+        Collections.reverse(weightList);
+        modelAndView.addObject("weightList", weightList);
     }
 }

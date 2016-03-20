@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="col-md-4">
+<div class="col-md-8">
     <table class="table table-hover table-striped">
         <thead>
         <tr>
@@ -12,7 +12,7 @@
         <tbody>
         <c:forEach var="weight" items="${weightList}">
             <tr>
-                <td><fmt:formatDate type="both" dateStyle="short" value="${weight.weightDate}"/></td>
+                <td><fmt:formatDate type="date" value="${weight.weightDate}"/></td>
                 <td>${weight.weight}</td>
                 <c:if test="${weight.status eq '+'}">
                     <td><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></td>

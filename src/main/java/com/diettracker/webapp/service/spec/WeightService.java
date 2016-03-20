@@ -4,7 +4,6 @@ import com.diettracker.webapp.exception.impl.FoodNotFoundException;
 import com.diettracker.webapp.exception.impl.InvalidDateException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.model.Weight;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -17,4 +16,8 @@ public interface WeightService {
     List<Weight> getWeights(int userId) throws UnexpectedErrorException;
 
     void deleteWeight(int id, int userId) throws UnexpectedErrorException;
+
+    String getWeightValueJSON(List<Weight> weightList);
+
+    String getWeightDateJSON(List<Weight> weightList);
 }
