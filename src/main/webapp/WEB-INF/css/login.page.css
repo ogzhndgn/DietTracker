@@ -71,12 +71,11 @@ body {
     border-color: #53A3CD;
 }
 .forgot-password {
-    text-decoration: underline;
     color: #888;
 }
 .forgot-password:hover,
 .forgot-password:focus {
-    text-decoration: underline;
+    text-decoration: none;
     color: #666;
 }
 

@@ -114,7 +114,8 @@ public class UserServiceImpl implements UserService {
         throw new InvalidEmailException();
     }
 
-    private User getByEmail(String email) throws ServiceException {
+    @Override
+    public User getByEmail(String email) throws ServiceException {
         User user;
         try {
             user = userDao.get(email);

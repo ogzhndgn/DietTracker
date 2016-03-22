@@ -12,4 +12,6 @@ public interface UserService {
     User loginUser(String email, String password) throws ServiceException;
 
     User editUserInfo(int id, String name, String password, String confirmPassword) throws ServiceException;
+
+    User getByEmail(String email) throws ServiceException;
 }
