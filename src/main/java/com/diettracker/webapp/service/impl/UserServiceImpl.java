@@ -9,8 +9,12 @@ import com.diettracker.webapp.service.security.HashService;
 import com.diettracker.webapp.service.spec.UserService;
 import com.diettracker.webapp.service.util.FormValidator;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 20.6.2015
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService {
     FormValidator formValidator;
     @Autowired
     HashService hashService;
+    private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     @Override
     public User registerUser(String email, String password, String confirmPassword) throws ServiceException {
@@ -57,6 +62,16 @@ public class UserServiceImpl implements UserService {
         }
         this.updateUser(name, id);
         return this.getById(id);
+    }
+
+    @Override
+    public void deleteUser(String email) {
+        logger.info("User: " + email + " will be deleted from the system");
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        logger.info("All users will be deleted...");
     }
 
     private void updateUser(String name, int userId) throws ServiceException {
@@ -126,6 +141,11 @@ public class UserServiceImpl implements UserService {
             throw new NonExistingUserException();
         }
         return user;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getUsers();
     }
 
     private User getById(int id) throws ServiceException {

@@ -25,6 +25,7 @@
             <mvc:exclude-mapping path="/notauth"/>
             <mvc:exclude-mapping path="/register"/>
             <mvc:exclude-mapping path="/forgotpassword"/>
+            <mvc:exclude-mapping path="/restapi/**"/>
             <bean id="sessionInterceptor" class="com.diettracker.webapp.interceptor.SessionInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

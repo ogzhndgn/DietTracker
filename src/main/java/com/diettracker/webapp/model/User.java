@@ -1,15 +1,28 @@
 package com.diettracker.webapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
+import java.io.Serializable;
+
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 20.6.2015
  */
+@JsonInclude
+@JsonRootName(value = "user")
 public class User {
     private int id;
     private String name;
     private String email;
+    @JsonIgnore
     private String passwordHash;
+    @JsonIgnore
     private String passwordSalt;
     private boolean active;
+//    @JsonIgnore
+    private String password;
 
     public int getId() {
         return id;
@@ -57,6 +70,14 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
