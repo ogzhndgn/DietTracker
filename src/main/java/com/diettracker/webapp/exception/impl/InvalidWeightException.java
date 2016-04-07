@@ -1,7 +1,7 @@
 package com.diettracker.webapp.exception.impl;
 
 import com.diettracker.webapp.exception.spec.ServiceException;
-import com.diettracker.webapp.service.ApiErrorCode;
+import com.diettracker.webapp.enums.ApiErrorCode;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 20.03.2016.

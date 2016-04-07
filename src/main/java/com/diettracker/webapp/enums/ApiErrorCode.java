@@ -1,4 +1,4 @@
-package com.diettracker.webapp.service;
+package com.diettracker.webapp.enums;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 21.6.2015

@@ -59,7 +59,7 @@ public class MailMain {
         formData.add("from", "Diet Tracker <postmaster@sandboxa65ebf0cee6a49399edb964fc937a284.mailgun.org>");
         formData.add("to", "dogan_oguzhan@hotmail.com");
         formData.add("subject", "Forgot Password");
-        formData.add("text", "Haha n00b! Did you forget your password? Kola reeeeeyy");
+        formData.add("text", "Haha n00b! Did you forget your password? Kola nerde geeeyy. Bu mail main metotdan");
         return webResource.type(String.valueOf(MediaType.APPLICATION_FORM_URLENCODED)).post(ClientResponse.class, formData);
     }
 
