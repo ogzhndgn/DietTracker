@@ -23,7 +23,6 @@ public class UserMealDao extends DatabaseObject {
         try {
             return queryRunner.insert(sql, resultSetHandler, params);
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.fatal(e.getMessage() + " " + e.getCause());
             throw new DAOException(e.getMessage(), e.getCause());
         }

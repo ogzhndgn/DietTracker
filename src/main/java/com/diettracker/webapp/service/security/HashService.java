@@ -43,4 +43,9 @@ public class HashService {
         }
         return sb.toString();
     }
+
+    public String hashData(String data) throws SaltGeneratingException, PasswordHashException {
+        String salt = this.getPasswordSalt();
+        return this.hashPassword(data, salt);
+    }
 }

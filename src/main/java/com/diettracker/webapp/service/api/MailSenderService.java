@@ -1,7 +1,7 @@
-package com.diettracker.webapp.service.impl;
+package com.diettracker.webapp.service.api;
 
 import com.diettracker.webapp.config.MailgunConfig;
-import com.diettracker.webapp.service.spec.MailSenderService;
+import com.diettracker.webapp.model.PasswordRecovery;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -9,7 +9,7 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,13 +19,17 @@ import java.io.InputStreamReader;
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 7.04.2016.
  */
-@Service
-public class MailSenderServiceImpl implements MailSenderService {
+@Component
+public class MailSenderService {
     @Autowired
     MailgunConfig mailgunConfig;
 
-    @Override
-    public void send(String email, String mailBody) throws IOException {
+    public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery) throws IOException {
+        String forgotPasswordMailBody = "Hahaha şifreni mi unuttun? " + passwordRecovery.toString();
+        this.send(email, forgotPasswordMailBody);
+    }
+
+    private void send(String email, String mailBody) throws IOException {
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter("api", mailgunConfig.getApiKey()));
         WebResource webResource = client.resource(mailgunConfig.getUrl());

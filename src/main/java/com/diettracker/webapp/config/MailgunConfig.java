@@ -13,7 +13,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @PropertySource("classpath:mailgun.properties")
 public class MailgunConfig {
 
-    @Value("${mailgun.apikey}")
+    @Value("${mailgun.apiKey}")
     private String apiKey;
     @Value("${mailgun.url}")
     private String url;
