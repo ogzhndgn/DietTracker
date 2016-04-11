@@ -25,7 +25,8 @@ public class MailSenderService {
     MailgunConfig mailgunConfig;
 
     public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery) throws IOException {
-        String forgotPasswordMailBody = "Hahaha şifreni mi unuttun? " + passwordRecovery.toString();
+        String url = "http://localhost:8080/diettracker/passwordrecovery/" + passwordRecovery.getHash();
+        String forgotPasswordMailBody = "Please <a href=\"" + url + " \">click</a> to reset your password. ";
         this.send(email, forgotPasswordMailBody);
     }
 

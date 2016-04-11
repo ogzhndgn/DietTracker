@@ -2,8 +2,11 @@ package com.diettracker.webapp.service.impl;
 
 import com.diettracker.webapp.dao.PasswordRecoveryDao;
 import com.diettracker.webapp.enums.PasswordRecoveryStatus;
+import com.diettracker.webapp.exception.impl.HashNotActiveException;
+import com.diettracker.webapp.exception.impl.HashNotFoundException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
+import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.PasswordRecovery;
 import com.diettracker.webapp.service.spec.PasswordRecoveryService;
 import org.apache.commons.lang3.time.DateUtils;
@@ -30,6 +33,26 @@ public class PasswordRecoveryServiceImpl implements PasswordRecoveryService {
         Timestamp expirationTime = new Timestamp(expiry.getTime());
         try {
             return passwordRecoveryDao.add(userId, token, hash, createdTime, expirationTime, String.valueOf(PasswordRecoveryStatus.ACTIVE));
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+    }
+
+    @Override
+    public PasswordRecovery getByHash(String hash) throws ServiceException {
+        try {
+            PasswordRecovery passwordRecovery = passwordRecoveryDao.getByHash(hash, String.valueOf(PasswordRecoveryStatus.ACTIVE));
+            if (passwordRecovery == null) {
+                throw new HashNotFoundException();
+            }
+            if (passwordRecovery.getStatus() != PasswordRecoveryStatus.ACTIVE) {
+                throw new HashNotActiveException();
+            }
+            Timestamp now = new Timestamp(new Date().getTime());
+            if (!(now.after(passwordRecovery.getCreatedTime()) && now.before(passwordRecovery.getExpirationTime()))) {
+                throw new HashNotActiveException();
+            }
+            return passwordRecovery;
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }

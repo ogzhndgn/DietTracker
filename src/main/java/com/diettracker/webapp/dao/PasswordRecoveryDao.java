@@ -29,4 +29,17 @@ public class PasswordRecoveryDao extends DatabaseObject {
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
+
+    public PasswordRecovery getByHash(String hash, String status) throws DAOException {
+        String sql = "SELECT * FROM diettracker.passwordrecovery dp WHERE dp.hash = ?";
+        ResultSetHandler<PasswordRecovery> resultSetHandler = new BeanHandler<>(PasswordRecovery.class);
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {hash};
+        try {
+            return queryRunner.query(sql, resultSetHandler, params);
+        } catch (SQLException e) {
+            logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
 }
