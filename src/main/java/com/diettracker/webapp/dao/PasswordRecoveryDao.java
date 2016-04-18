@@ -1,15 +1,16 @@
 package com.diettracker.webapp.dao;
 
-import com.diettracker.webapp.enums.PasswordRecoveryStatus;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.model.PasswordRecovery;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 10.04.2016.
@@ -30,11 +31,24 @@ public class PasswordRecoveryDao extends DatabaseObject {
         }
     }
 
-    public PasswordRecovery getByHash(String hash, String status) throws DAOException {
+    public PasswordRecovery getByHash(String hash) throws DAOException {
         String sql = "SELECT * FROM diettracker.passwordrecovery dp WHERE dp.hash = ?";
         ResultSetHandler<PasswordRecovery> resultSetHandler = new BeanHandler<>(PasswordRecovery.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());
         Object[] params = {hash};
+        try {
+            return queryRunner.query(sql, resultSetHandler, params);
+        } catch (SQLException e) {
+            logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+
+    public List<PasswordRecovery> get(int userId, String passwordRecoveryStatus, Timestamp now) throws DAOException {
+        String sql = "SELECT * FROM diettracker.passwordrecovery dpr WHERE dpr.userid = ? AND dpr.status = ? AND dpr.createdtime < ? AND dpr.expirationtime > ?";
+        ResultSetHandler<List<PasswordRecovery>> resultSetHandler = new BeanListHandler<>(PasswordRecovery.class);
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {userId, passwordRecoveryStatus, now, now};
         try {
             return queryRunner.query(sql, resultSetHandler, params);
         } catch (SQLException e) {

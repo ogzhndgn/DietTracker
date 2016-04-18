@@ -21,7 +21,7 @@ public class User {
     @JsonIgnore
     private String passwordSalt;
     private boolean active;
-//    @JsonIgnore
+    //    @JsonIgnore
     private String password;
 
     public int getId() {

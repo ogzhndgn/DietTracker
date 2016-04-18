@@ -10,11 +10,14 @@ import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.PasswordRecovery;
 import com.diettracker.webapp.service.spec.PasswordRecoveryService;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 10.04.2016.
@@ -24,7 +27,7 @@ public class PasswordRecoveryServiceImpl implements PasswordRecoveryService {
     public static final int EXPIRY_TIME_IN_DAYS = 3;
     @Autowired
     PasswordRecoveryDao passwordRecoveryDao;
-
+    private final Logger logger = LogManager.getLogger(PasswordRecoveryServiceImpl.class);
 
     @Override
     public PasswordRecovery add(int userId, String token, String hash) throws UnexpectedErrorException {
@@ -41,7 +44,7 @@ public class PasswordRecoveryServiceImpl implements PasswordRecoveryService {
     @Override
     public PasswordRecovery getByHash(String hash) throws ServiceException {
         try {
-            PasswordRecovery passwordRecovery = passwordRecoveryDao.getByHash(hash, String.valueOf(PasswordRecoveryStatus.ACTIVE));
+            PasswordRecovery passwordRecovery = passwordRecoveryDao.getByHash(hash);
             if (passwordRecovery == null) {
                 throw new HashNotFoundException();
             }
@@ -53,6 +56,23 @@ public class PasswordRecoveryServiceImpl implements PasswordRecoveryService {
                 throw new HashNotActiveException();
             }
             return passwordRecovery;
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
+    }
+
+    @Override
+    public PasswordRecovery getActiveHash(int userId) throws UnexpectedErrorException, HashNotFoundException {
+        Timestamp now = new Timestamp(new Date().getTime());
+        try {
+            List<PasswordRecovery> passwordRecoveryList = passwordRecoveryDao.get(userId, String.valueOf(PasswordRecoveryStatus.ACTIVE), now);
+            if (passwordRecoveryList.isEmpty()) {
+                throw new HashNotFoundException();
+            }
+            if (passwordRecoveryList.size() > 1) {
+                logger.info(passwordRecoveryList.size() + " active hash found for userId #" + userId);
+            }
+            return passwordRecoveryList.get(0);
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }

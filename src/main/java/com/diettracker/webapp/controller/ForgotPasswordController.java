@@ -1,6 +1,7 @@
 package com.diettracker.webapp.controller;
 
 import com.diettracker.webapp.controller.base.BaseController;
+import com.diettracker.webapp.exception.impl.*;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.PasswordRecovery;
 import com.diettracker.webapp.model.User;
@@ -47,12 +48,26 @@ public class ForgotPasswordController extends BaseController {
     private void sendForgotPasswordMail(String email) {
         try {
             User user = userService.getByEmail(email);
-            String token = randomOrgService.getGeneratedToken();
-            String hash = hashService.hashData(token + user.getEmail());
-            PasswordRecovery passwordRecovery = passwordRecoveryService.add(user.getId(), token, hash);
+            PasswordRecovery passwordRecovery = getPasswordRecovery(user);
             mailSenderService.sendForgotPasswordMail(user.getEmail(), passwordRecovery);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ServiceException e) {
+            logger.error("ServiceException: " + e.getMessage());
+        } catch (IOException e) {
+            logger.error("IOException: ", e);
         }
+    }
+
+    private PasswordRecovery getPasswordRecovery(User user) throws UnexpectedErrorException, TokenNotGeneratedException, SaltGeneratingException, PasswordHashException {
+        try {
+            return passwordRecoveryService.getActiveHash(user.getId());
+        } catch (HashNotFoundException e) {
+            return this.createNewPasswordRecovery(user);
+        }
+    }
+
+    private PasswordRecovery createNewPasswordRecovery(User user) throws TokenNotGeneratedException, SaltGeneratingException, PasswordHashException, UnexpectedErrorException {
+        String token = randomOrgService.getGeneratedToken();
+        String hash = hashService.hashData(token + user.getEmail());
+        return passwordRecoveryService.add(user.getId(), token, hash);
     }
 }
