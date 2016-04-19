@@ -7,6 +7,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,11 +42,12 @@ public class MailSenderService {
         client.addFilter(new HTTPBasicAuthFilter("api", mailgunConfig.getApiKey()));
         WebResource webResource = client.resource(mailgunConfig.getUrl());
         MultivaluedMapImpl formData = new MultivaluedMapImpl();
-        formData.add("from", mailgunConfig.getFromName() + " " + mailgunConfig.getFromAddress());
-        formData.add("to", email);
-        formData.add("subject", "Forgot Password");
-        formData.add("text", mailBody);
-        ClientResponse clientResponse = webResource.type(String.valueOf(MediaType.APPLICATION_FORM_URLENCODED)).post(ClientResponse.class, formData);
+        FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+        formDataMultiPart.field("from", mailgunConfig.getFromName() + " " + mailgunConfig.getFromAddress());
+        formDataMultiPart.field("to", email);
+        formDataMultiPart.field("subject", "Forgot Password");
+        formDataMultiPart.field("html", mailBody);
+        ClientResponse clientResponse = webResource.type(MediaType.MULTIPART_FORM_DATA_VALUE).post(ClientResponse.class, formDataMultiPart);
         return this.logResponse(clientResponse);
     }
 
