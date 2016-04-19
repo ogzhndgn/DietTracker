@@ -7,6 +7,9 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -23,31 +26,42 @@ import java.io.InputStreamReader;
 public class MailSenderService {
     @Autowired
     MailgunConfig mailgunConfig;
+    private final Logger logger = LogManager.getLogger(MailSenderService.class);
 
-    public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery) throws IOException {
-        String url = "http://localhost:8080/diettracker/passwordrecovery/" + passwordRecovery.getHash();
+    public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery) {
+        String hash = passwordRecovery.getHash();
+        String url = StringUtils.replace(mailgunConfig.getPasswordRecoveryUrl(), "{$HASH}", hash);
         String forgotPasswordMailBody = "Please <a href=\"" + url + " \">click</a> to reset your password. ";
-        this.send(email, forgotPasswordMailBody);
+        String response = this.send(email, forgotPasswordMailBody);
+        logger.info("Mail sent to " + email + " for hash " + hash + " the response is: " + response);
     }
 
-    private void send(String email, String mailBody) throws IOException {
+    private String send(String email, String mailBody) {
         Client client = Client.create();
         client.addFilter(new HTTPBasicAuthFilter("api", mailgunConfig.getApiKey()));
         WebResource webResource = client.resource(mailgunConfig.getUrl());
         MultivaluedMapImpl formData = new MultivaluedMapImpl();
         formData.add("from", mailgunConfig.getFromName() + " " + mailgunConfig.getFromAddress());
-        formData.add("to", "dogan_oguzhan@hotmail.com");
+        formData.add("to", email);
         formData.add("subject", "Forgot Password");
         formData.add("text", mailBody);
         ClientResponse clientResponse = webResource.type(String.valueOf(MediaType.APPLICATION_FORM_URLENCODED)).post(ClientResponse.class, formData);
-        InputStream inputStream = clientResponse.getEntityInputStream();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder out = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            out.append(line);
+        return this.logResponse(clientResponse);
+    }
+
+    private String logResponse(ClientResponse clientResponse) {
+        try {
+            InputStream inputStream = clientResponse.getEntityInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder out = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.append(line);
+            }
+            reader.close();
+            return out.toString();
+        } catch (IOException e) {
+            return "CAN_NOT_GET_RESPONSE";
         }
-        System.out.println(out.toString());   //Prints the string content read from input stream
-        reader.close();
     }
 }

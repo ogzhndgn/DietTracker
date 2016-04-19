@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 22.03.2016.
@@ -38,23 +37,25 @@ public class ForgotPasswordController extends BaseController {
 
     @RequestMapping(value = "/forgotpassword", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView forgotPasswordGet(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("forgotpassword/forgotpassword");
         String email = request.getParameter("email");
         if (StringUtils.isNotBlank(email)) {
-            this.sendForgotPasswordMail(email);
+            try {
+                this.sendForgotPasswordMail(email);
+                modelAndView.addObject("showSuccessMessage", true);
+                modelAndView.addObject("successMessage", "MAIL_SENT_SUCCESSFULLY");
+            } catch (ServiceException e) {
+                modelAndView.addObject("showErrorMessage", true);
+                modelAndView.addObject("errorMessage", e.getMessage());
+            }
         }
-        return new ModelAndView("forgotpassword/forgotpassword");
+        return modelAndView;
     }
 
-    private void sendForgotPasswordMail(String email) {
-        try {
-            User user = userService.getByEmail(email);
-            PasswordRecovery passwordRecovery = getPasswordRecovery(user);
-            mailSenderService.sendForgotPasswordMail(user.getEmail(), passwordRecovery);
-        } catch (ServiceException e) {
-            logger.error("ServiceException: " + e.getMessage());
-        } catch (IOException e) {
-            logger.error("IOException: ", e);
-        }
+    private void sendForgotPasswordMail(String email) throws ServiceException {
+        User user = userService.getByEmail(email);
+        PasswordRecovery passwordRecovery = this.getPasswordRecovery(user);
+        mailSenderService.sendForgotPasswordMail(user.getEmail(), passwordRecovery);
     }
 
     private PasswordRecovery getPasswordRecovery(User user) throws UnexpectedErrorException, TokenNotGeneratedException, SaltGeneratingException, PasswordHashException {

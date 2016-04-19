@@ -21,6 +21,8 @@ public class MailgunConfig {
     private String fromName;
     @Value("${mailgun.fromAddress}")
     private String fromAddress;
+    @Value("${mailgun.passwordRecoveryUrl}")
+    private String passwordRecoveryUrl;
 
     public String getApiKey() {
         return apiKey;
@@ -52,6 +54,14 @@ public class MailgunConfig {
 
     public void setFromAddress(String fromAddress) {
         this.fromAddress = fromAddress;
+    }
+
+    public String getPasswordRecoveryUrl() {
+        return passwordRecoveryUrl;
+    }
+
+    public void setPasswordRecoveryUrl(String passwordRecoveryUrl) {
+        this.passwordRecoveryUrl = passwordRecoveryUrl;
     }
 
     @Bean
