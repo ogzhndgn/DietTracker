@@ -16,6 +16,13 @@
             <span class="sr-only">Error</span><spring:message code="error.${errorMessage}"/>
           </div>
         </c:if>
+        <c:if test="${showSuccessMessage}">
+          <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+            <span class="sr-only">Success!</span><spring:message code="success.${successMessage}"/>
+          </div>
+        </c:if>
         <div class="panel panel-login">
           <div class="panel-heading">
             <div class="row">
@@ -30,10 +37,10 @@
               <div class="col-lg-12">
                 <form id="passwordrecovery-form" action="${pageContext.request.contextPath}/passwordrecovery/${hash}" method="post" role="form">
                   <div class="form-group">
-                    <input type="password" name="password" id="password" tabindex="1" class="form-control" placeholder="<spring:message code="text.Password"/>" value="" autocomplete="off" required="">
+                    <input type="password" name="password" id="password" tabindex="1" class="form-control" placeholder="<spring:message code="text.Password"/>" value="" autocomplete="off">
                   </div>
                   <div class="form-group">
-                    <input type="password" name="confirm-password" id="confirm-password" tabindex="1" class="form-control" placeholder="<spring:message code="text.ConfirmPassword"/>" value="" autocomplete="off" required="">
+                    <input type="password" name="confirm-password" id="confirm-password" tabindex="1" class="form-control" placeholder="<spring:message code="text.ConfirmPassword"/>" value="" autocomplete="off">
                   </div>
                   <div class="form-group">
                     <div class="row">

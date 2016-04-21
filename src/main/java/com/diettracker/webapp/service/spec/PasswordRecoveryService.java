@@ -15,4 +15,6 @@ public interface PasswordRecoveryService {
     PasswordRecovery getByHash(String hash) throws UnexpectedErrorException, HashNotFoundException, HashNotActiveException, ServiceException;
 
     PasswordRecovery getActiveHash(int userId) throws UnexpectedErrorException, HashNotFoundException;
+
+    boolean updateAfterUse(int id);
 }

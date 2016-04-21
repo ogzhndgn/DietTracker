@@ -77,4 +77,16 @@ public class PasswordRecoveryServiceImpl implements PasswordRecoveryService {
             throw new UnexpectedErrorException();
         }
     }
+
+    @Override
+    public boolean updateAfterUse(int id) {
+        Timestamp now = new Timestamp(new Date().getTime());
+        boolean result = false;
+        try {
+            int updatedRowCount = passwordRecoveryDao.update(id, now, String.valueOf(PasswordRecoveryStatus.USED));
+            result = updatedRowCount > 0;
+        } catch (DAOException ignored) {
+        }
+        return result;
+    }
 }

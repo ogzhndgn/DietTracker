@@ -65,6 +65,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void recoverPassword(int id, String password, String confirmPassword) throws ServiceException {
+        User user = this.getById(id);
+        if (!this.isPasswordUpdate(password, confirmPassword)) {
+            throw new PasswordCanNotBeBlankException();
+        }
+        this.changePassword(id, password);
+    }
+
+    @Override
     public void deleteUser(String email) {
         logger.info("User: " + email + " will be deleted from the system");
     }

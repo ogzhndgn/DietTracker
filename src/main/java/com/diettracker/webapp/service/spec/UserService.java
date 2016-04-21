@@ -22,4 +22,6 @@ public interface UserService {
     void deleteUser(String email);
 
     void deleteAllUsers();
+
+    void recoverPassword(int id, String password, String confirmPassword) throws ServiceException;
 }

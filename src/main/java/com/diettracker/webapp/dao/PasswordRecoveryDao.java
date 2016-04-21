@@ -56,4 +56,16 @@ public class PasswordRecoveryDao extends DatabaseObject {
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
+
+    public int update(int id, Timestamp usingTime, String passwordRecoveryStatus) throws DAOException {
+        String sql = "UPDATE diettracker.passwordrecovery SET usingtime = ?, status = ? WHERE id = ?";
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {usingTime, passwordRecoveryStatus, id};
+        try {
+            return queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
 }
