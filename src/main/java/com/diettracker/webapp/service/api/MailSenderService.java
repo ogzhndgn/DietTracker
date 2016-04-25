@@ -1,5 +1,6 @@
 package com.diettracker.webapp.service.api;
 
+import com.diettracker.webapp.config.MailTemplatesConfig;
 import com.diettracker.webapp.config.MailgunConfig;
 import com.diettracker.webapp.model.PasswordRecovery;
 import com.sun.jersey.api.client.Client;
@@ -27,12 +28,15 @@ import java.io.InputStreamReader;
 public class MailSenderService {
     @Autowired
     MailgunConfig mailgunConfig;
+    @Autowired
+    MailTemplatesConfig mailTemplatesConfig;
     private final Logger logger = LogManager.getLogger(MailSenderService.class);
 
     public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery) {
         String hash = passwordRecovery.getHash();
         String url = StringUtils.replace(mailgunConfig.getPasswordRecoveryUrl(), "{$HASH}", hash);
-        String forgotPasswordMailBody = "Please <a href=\"" + url + " \">click</a> to reset your password. ";
+        String forgotPasswordMailTemplate = mailTemplatesConfig.getForgotPasswordTemplate();
+        String forgotPasswordMailBody = StringUtils.replace(forgotPasswordMailTemplate, "{$URL}", url);
         String response = this.send(email, forgotPasswordMailBody);
         logger.info("Mail sent to " + email + " for hash " + hash + " the response is: " + response);
     }
