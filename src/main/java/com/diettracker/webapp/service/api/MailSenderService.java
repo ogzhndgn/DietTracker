@@ -32,11 +32,15 @@ public class MailSenderService {
     MailTemplatesConfig mailTemplatesConfig;
     private final Logger logger = LogManager.getLogger(MailSenderService.class);
 
-    public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery) {
+    public void sendForgotPasswordMail(String email, PasswordRecovery passwordRecovery, String nameSurname) {
+        if (StringUtils.isBlank(nameSurname)) {
+            nameSurname = "Üyemiz";
+        }
         String hash = passwordRecovery.getHash();
         String url = StringUtils.replace(mailgunConfig.getPasswordRecoveryUrl(), "{$HASH}", hash);
         String forgotPasswordMailTemplate = mailTemplatesConfig.getForgotPasswordTemplate();
         String forgotPasswordMailBody = StringUtils.replace(forgotPasswordMailTemplate, "{$URL}", url);
+        forgotPasswordMailBody = StringUtils.replace(forgotPasswordMailBody, "{$NAMESURNAME}", nameSurname);
         String response = this.send(email, forgotPasswordMailBody);
         logger.info("Mail sent to " + email + " for hash " + hash + " the response is: " + response);
     }

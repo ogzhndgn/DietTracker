@@ -55,7 +55,7 @@ public class ForgotPasswordController extends BaseController {
     private void sendForgotPasswordMail(String email) throws ServiceException {
         User user = userService.getByEmail(email);
         PasswordRecovery passwordRecovery = this.getPasswordRecovery(user);
-        mailSenderService.sendForgotPasswordMail(user.getEmail(), passwordRecovery);
+        mailSenderService.sendForgotPasswordMail(user.getEmail(), passwordRecovery, user.getName());
     }
 
     private PasswordRecovery getPasswordRecovery(User user) throws UnexpectedErrorException, TokenNotGeneratedException, SaltGeneratingException, PasswordHashException {
