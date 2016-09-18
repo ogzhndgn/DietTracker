@@ -66,7 +66,7 @@ public class UserMealServiceImpl implements UserMealService {
     }
 
     private Timestamp convertToTimestamp(String eatingTime) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         Date parsedDate = dateFormat.parse(eatingTime);
         return new Timestamp(parsedDate.getTime());
     }

@@ -1,7 +1,6 @@
 package com.diettracker.webapp.service.impl;
 
 import com.diettracker.webapp.dao.WeightDao;
-import com.diettracker.webapp.exception.impl.FoodNotFoundException;
 import com.diettracker.webapp.exception.impl.InvalidDateException;
 import com.diettracker.webapp.exception.impl.InvalidWeightException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
@@ -18,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 23.02.2016.
@@ -39,7 +40,7 @@ public class WeightServiceImpl implements WeightService {
         } catch (ParseException e) {
             throw new InvalidDateException();
         } catch (NumberFormatException ne) {
-            throw new InvalidWeightException(); //TODO add a new exception here.
+            throw new InvalidWeightException();
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }
@@ -95,6 +96,9 @@ public class WeightServiceImpl implements WeightService {
     }
 
     private List<Weight> setStatuses(List<Weight> weightList) {
+        if (weightList.isEmpty()) {
+            return weightList;
+        }
         for (int i = 0; i < weightList.size() - 1; i++) {
             int nextIndex = i + 1;
             if (weightList.get(i).getWeight() > weightList.get(nextIndex).getWeight()) {

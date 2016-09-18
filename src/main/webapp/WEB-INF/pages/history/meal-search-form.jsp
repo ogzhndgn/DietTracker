@@ -57,10 +57,12 @@
 <script>
     $(document).ready(function () {
         $('#meal-time-begin-div').datepicker({
-            format: 'dd.mm.yyyy'
+            format: 'dd.mm.yyyy',
+            locale: 'tr'
         });
         $('#meal-time-end-div').datepicker({
-            format: 'dd.mm.yyyy'
+            format: 'dd.mm.yyyy',
+            locale: 'tr'
         });
     });
 </script>
