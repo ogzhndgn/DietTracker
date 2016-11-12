@@ -35,7 +35,7 @@ public class WeightTrackController extends BaseController {
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
         try {
-            this.setWeightListToModel(modelAndView, user.getId());
+            this.setWeightListToModel(modelAndView, user);
         } catch (ServiceException se) {
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());
@@ -52,9 +52,9 @@ public class WeightTrackController extends BaseController {
         String weight = request.getParameter("weight");
         try {
             weightService.addWeight(user.getId(), weight, weightDate);
-            this.setWeightListToModel(modelAndView, user.getId());
+            this.setWeightListToModel(modelAndView, user);
         } catch (ServiceException se) {
-            this.setWeightListToModel(modelAndView, user.getId());
+            this.setWeightListToModel(modelAndView, user);
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());
             return modelAndView;
@@ -77,13 +77,15 @@ public class WeightTrackController extends BaseController {
         }
     }
 
-    private void setWeightListToModel(ModelAndView modelAndView, int userId) throws UnexpectedErrorException {
+    private void setWeightListToModel(ModelAndView modelAndView, User user) throws UnexpectedErrorException {
+        int userId = user.getId();
         List<Weight> weightList = weightService.getWeights(userId);
         Collections.reverse(weightList);
         String weightValueJSON = weightService.getWeightValueJSON(weightList);
         String weightDateJSON = weightService.getWeightDateJSON(weightList);
         modelAndView.addObject("weightValueJSON", weightValueJSON);
         modelAndView.addObject("weightDateJSON", weightDateJSON);
+        modelAndView.addObject("user", user);
         Collections.reverse(weightList);
         modelAndView.addObject("weightList", weightList);
     }

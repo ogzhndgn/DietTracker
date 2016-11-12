@@ -1,5 +1,6 @@
 package com.diettracker.webapp.dao;
 
+import com.diettracker.webapp.enums.Role;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.model.User;
 import org.apache.commons.dbutils.QueryRunner;
@@ -67,10 +68,10 @@ public class UserDao extends DatabaseObject {
     }
 
     public User add(String email, String passwordHash, String passwordSalt) throws DAOException {
-        String sql = "INSERT INTO diettracker.user (email, passwordhash, passwordsalt, active) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO diettracker.user (email, passwordhash, passwordsalt, active, role) VALUES (?,?,?,?,?)";
         ResultSetHandler<User> resultSetHandler = new BeanHandler<>(User.class);
         QueryRunner queryRunner = new QueryRunner(getDataSource());
-        Object[] params = {email, passwordHash, passwordSalt, true};
+        Object[] params = {email, passwordHash, passwordSalt, true, Role.CLIENT.toString()};
         try {
             return queryRunner.insert(sql, resultSetHandler, params);
         } catch (SQLException e) {

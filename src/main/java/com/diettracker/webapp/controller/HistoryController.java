@@ -44,6 +44,7 @@ public class HistoryController extends BaseController {
         User user = sessionInfo.getUser();
         List<History> historyList = historyService.getAll(user.getId());
         try {
+            modelAndView.addObject("user", user);
             modelAndView.addObject("historyList", historyList);
             modelAndView.addObject("mealList", mealService.getMealList());
             modelAndView.addObject("showErrorMessage", false);
@@ -71,6 +72,7 @@ public class HistoryController extends BaseController {
             modelAndView.addObject("mealTimeBegin", mealTimeBegin);
             modelAndView.addObject("mealTimeEnd", mealTimeEnd);
             modelAndView.addObject("foodSearch", foodSearch);
+            modelAndView.addObject("user", user);
             return modelAndView;
         } catch (ServiceException e) {
             return this.returnHistoryErrorPage(e.getMessage());
