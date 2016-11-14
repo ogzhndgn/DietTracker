@@ -1,25 +1,26 @@
 <div class="row">
   <%@include file="empty-col-2.jsp" %>
   <div class="col-md-5">
-    <div class="page-header" style="height: 8%;">
+    <div class="page-header" style="height: 10%;">
       <h1>
         <spring:message code="text.Title"/>
       </h1>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="page-header text-right" style="height: 8%;">
+    <div class="page-header text-right" style="height: 10%;">
       <spring:message code="text.Dear"/>
       <h4>
-      <c:choose>
-        <c:when test="${not empty user.name}">
-          <c:out value="${user.name}"/>
-        </c:when>
-        <c:otherwise>
-          <c:out value="${user.email}"/>
-        </c:otherwise>
-      </c:choose>
-    </h4>
+        <c:choose>
+          <c:when test="${not empty user.name}">
+            <c:out value="${user.name}"/>
+          </c:when>
+          <c:otherwise>
+            <c:out value="${user.email}"/>
+          </c:otherwise>
+        </c:choose>
+      </h4>
+      <a href="${pageContext.request.contextPath}/logout" class="btn btn-link"><spring:message code="text.LogOut"/></a>
     </div>
   </div>
   <%@include file="empty-col-2.jsp" %>
@@ -33,7 +34,6 @@
           <li><a href="${pageContext.request.contextPath}/profile"><spring:message code="text.MenuItem1"/></a></li>
           <li><a href="${pageContext.request.contextPath}/history"><spring:message code="text.MenuItem2"/></a></li>
           <li><a href="${pageContext.request.contextPath}/weighttrack"><spring:message code="text.MenuItem3"/></a></li>
-          <li class="navbar-right"><a href="${pageContext.request.contextPath}/logout"><spring:message code="text.LogOut"/></a></li>
         </ul>
       </div>
     </nav>

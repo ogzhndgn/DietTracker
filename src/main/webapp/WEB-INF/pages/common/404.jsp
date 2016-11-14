@@ -30,7 +30,7 @@
                         </div>
                         <div class="text-center">
                           <br/>
-                          <span class="version-name">v1.4.0 Edinburgh</span>
+                          <span class="version-name">v1.5.0 Florence</span>
                         </div>
                       </div>
                     </div>
