@@ -28,15 +28,14 @@
 <div class="row">
   <%@include file="empty-col-2.jsp"%>
   <div class="col-md-8">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <ul class="nav navbar-nav">
-          <li><a href="${pageContext.request.contextPath}/profile"><spring:message code="text.MenuItem1"/></a></li>
-          <li><a href="${pageContext.request.contextPath}/history"><spring:message code="text.MenuItem2"/></a></li>
-          <li><a href="${pageContext.request.contextPath}/weighttrack"><spring:message code="text.MenuItem3"/></a></li>
-        </ul>
-      </div>
-    </nav>
+    <c:choose>
+      <c:when test="${user.role eq 'CLIENT'}">
+        <%@include file="../client/menu.jsp" %>
+      </c:when>
+      <c:otherwise>
+        <%@include file="../dietician/menu.jsp" %>
+      </c:otherwise>
+    </c:choose>
     <c:if test="${showErrorMessage}">
       <div class="alert alert-danger fade in" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -92,7 +92,7 @@ public class ProfileController extends BaseController {
     }
 
     private ModelAndView returnProfilePage(User user) throws ServiceException {
-        ModelAndView modelAndView = new ModelAndView("profile/profile");
+        ModelAndView modelAndView = new ModelAndView("client/profile");
         List<Meal> mealList = mealService.getMealList();
         List<History> historyList = historyService.getLasts(user.getId());
         modelAndView.addObject("historyList", historyList);
@@ -102,7 +102,7 @@ public class ProfileController extends BaseController {
     }
 
     private ModelAndView returnProfilePageForError(String apiErrorCode, User user) {
-        ModelAndView modelAndView = new ModelAndView("profile/profile");
+        ModelAndView modelAndView = new ModelAndView("client/profile");
         List<Meal> mealList = null;
         List<History> historyList = null;
         try {

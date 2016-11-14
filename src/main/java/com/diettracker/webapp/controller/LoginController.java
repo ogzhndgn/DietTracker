@@ -1,6 +1,7 @@
 package com.diettracker.webapp.controller;
 
 import com.diettracker.webapp.controller.base.BaseController;
+import com.diettracker.webapp.enums.Role;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.User;
 import com.diettracker.webapp.service.spec.UserService;
@@ -41,11 +42,18 @@ public class LoginController extends BaseController {
             String password = request.getParameter("password");
             User user = userService.loginUser(email, password);
             super.setSessionInfo(user, request);
-            return new ModelAndView("redirect:/profile");
+            return getModelAndView(user);
         } catch (ServiceException e) {
             logger.error("Invalid login for " + request.getParameter("email"));
             return this.returnLoginForm(e.getMessage());
         }
+    }
+
+    private ModelAndView getModelAndView(User user) {
+        if (user.getRole() == Role.CLIENT) {
+            return new ModelAndView("redirect:/profile");
+        }
+        return new ModelAndView("redirect:/dietician/profile");
     }
 
     private ModelAndView returnLoginForm(String apiErrorCode) {
