@@ -24,4 +24,6 @@ public interface UserService {
     void deleteAllUsers();
 
     void recoverPassword(int id, String password, String confirmPassword) throws ServiceException;
+
+    List<User> getClientsOfDietician(boolean isActive, int dieticianId) throws ServiceException;
 }

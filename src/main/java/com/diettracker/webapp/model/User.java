@@ -14,6 +14,7 @@ public class User {
     private boolean active;
     private String password;
     private Role role;
+    private int dieticianId;
 
     public int getId() {
         return id;
@@ -70,7 +71,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public Role getRole() {
         return role;
     }
@@ -79,6 +80,14 @@ public class User {
         this.role = role;
     }
 
+    public int getDieticianId() {
+        return dieticianId;
+    }
+
+    public void setDieticianId(int dieticianId) {
+        this.dieticianId = dieticianId;
+    }
+    
     @Override
     public String toString() {
         return "User{" +
@@ -90,6 +99,7 @@ public class User {
                 ", active=" + active +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", dieticianId=" + dieticianId +
                 '}';
     }
 }

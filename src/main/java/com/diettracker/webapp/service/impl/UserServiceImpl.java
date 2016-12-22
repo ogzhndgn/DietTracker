@@ -65,12 +65,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void recoverPassword(int id, String password, String confirmPassword) throws ServiceException {
-        User user = this.getById(id);
-        if (!this.isPasswordUpdate(password, confirmPassword)) {
-            throw new PasswordCanNotBeBlankException();
+    public User getByEmail(String email) throws ServiceException {
+        User user;
+        try {
+            user = userDao.get(email);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
         }
-        this.changePassword(id, password);
+        if (user == null) {
+            throw new NonExistingUserException();
+        }
+        return user;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getUsers();
     }
 
     @Override
@@ -81,6 +91,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAllUsers() {
         logger.info("All users will be deleted...");
+    }
+
+    @Override
+    public void recoverPassword(int id, String password, String confirmPassword) throws ServiceException {
+        User user = this.getById(id);
+        if (!this.isPasswordUpdate(password, confirmPassword)) {
+            throw new PasswordCanNotBeBlankException();
+        }
+        this.changePassword(id, password);
+    }
+
+    @Override
+    public List<User> getClientsOfDietician(boolean isActive, int dieticianId) throws ServiceException {
+        try {
+            List<User> clientList = userDao.get(isActive, dieticianId);
+            if (clientList == null || clientList.isEmpty()) {
+                throw new ClientListIsEmptyException();
+            }
+            return clientList;
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
     }
 
     private void updateUser(String name, int userId) throws ServiceException {
@@ -136,25 +168,6 @@ public class UserServiceImpl implements UserService {
             return;
         }
         throw new InvalidEmailException();
-    }
-
-    @Override
-    public User getByEmail(String email) throws ServiceException {
-        User user;
-        try {
-            user = userDao.get(email);
-        } catch (DAOException e) {
-            throw new UnexpectedErrorException();
-        }
-        if (user == null) {
-            throw new NonExistingUserException();
-        }
-        return user;
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userDao.getUsers();
     }
 
     private User getById(int id) throws ServiceException {

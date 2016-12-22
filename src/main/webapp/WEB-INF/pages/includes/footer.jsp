@@ -6,7 +6,7 @@
                 <div class="col-md-5 column"></div>
                 <div class="col-md-2 column">
                     <p>
-                        <a class="btn" data-toggle="modal" data-target="#dietTrackerModal"><spring:message code="text.Title"/> - Edinburgh</a>
+                        <a class="btn" data-toggle="modal" data-target="#dietTrackerModal"><spring:message code="text.Title"/> - Florence</a>
                     </p>
                 </div>
                 <div class="col-md-5 column"></div>
