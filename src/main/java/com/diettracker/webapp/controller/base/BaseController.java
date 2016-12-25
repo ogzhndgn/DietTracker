@@ -1,5 +1,8 @@
 package com.diettracker.webapp.controller.base;
 
+import com.diettracker.webapp.enums.Role;
+import com.diettracker.webapp.exception.impl.NotAuthorizedException;
+import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.SessionInfo;
 import com.diettracker.webapp.model.User;
 import com.diettracker.webapp.service.security.IdGenerator;
@@ -36,5 +39,18 @@ public class BaseController {
 
     protected void removeSessionInfo(HttpServletRequest request) {
         request.getSession().removeAttribute(SESSION_VAR);
+    }
+
+    protected void checkPermissionForRole(Role userRole, Role[] authorizedRoleArray) throws ServiceException {
+        boolean authorized = false;
+        for (Role authorizedRole : authorizedRoleArray) {
+            if (authorizedRole == userRole) {
+                authorized = true;
+                break;
+            }
+        }
+        if (!authorized) {
+            throw new NotAuthorizedException();
+        }
     }
 }

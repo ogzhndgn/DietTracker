@@ -7,30 +7,30 @@ import com.diettracker.webapp.model.User;
 import com.diettracker.webapp.service.spec.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
- * @author the Poet <dogan_oguzhan@hotmail.com> 14.11.2016.
+ * @author the Poet <dogan_oguzhan@hotmail.com> 25.12.2016.
  */
 @Controller
-public class ClientsController extends BaseController {
+@RequestMapping(value = "/dietician")
+public class ClientDetailController extends BaseController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/dietician/clients", method = RequestMethod.GET)
-    public ModelAndView clientsListGet(HttpServletRequest request) {
+    @RequestMapping(value = "/clientdetail/{clientId}", method = RequestMethod.GET)
+    public ModelAndView clientDetailGet(HttpServletRequest request, @PathVariable("clientId") int clientId) {
         User user = super.getSessionInfo(request).getUser();
-        ModelAndView modelAndView = new ModelAndView("dietician/clients/clients");
-        modelAndView.addObject("user", user);
+        ModelAndView modelAndView = new ModelAndView("dietician/clients/client-detail");
         try {
             super.checkPermissionForRole(user.getRole(), new Role[]{Role.DIETICIAN});
-            List<User> clientList = userService.getClientsOfDietician(true, user.getId());
-            modelAndView.addObject("clientList", clientList);
+            User client = userService.getDieticiansClient(user.getId(), clientId);
+            modelAndView.addObject("client", client);
         } catch (ServiceException se) {
             modelAndView.addObject("showErrorMessage", true);
             modelAndView.addObject("errorMessage", se.getMessage());

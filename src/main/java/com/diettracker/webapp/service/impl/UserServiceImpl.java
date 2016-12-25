@@ -115,6 +115,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User getDieticiansClient(int dieticianId, int clientId) throws ServiceException {
+        User client = this.getById(clientId);
+        if (client.getDieticianId() != dieticianId) {
+            throw new NotAuthorizedException();
+        }
+        return client;
+    }
+
     private void updateUser(String name, int userId) throws ServiceException {
 
         int updatedRowCount;

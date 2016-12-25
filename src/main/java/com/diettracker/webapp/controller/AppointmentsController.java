@@ -18,7 +18,7 @@ public class AppointmentsController extends BaseController {
     @RequestMapping(value = "/dietician/appointments", method = RequestMethod.GET)
     public ModelAndView clientsListGet(HttpServletRequest request) {
         User user = super.getSessionInfo(request).getUser();
-        ModelAndView modelAndView = new ModelAndView("dietician/appointments");
+        ModelAndView modelAndView = new ModelAndView("dietician/appointments/appointments");
         modelAndView.addObject("user", user);
         return modelAndView;
     }
