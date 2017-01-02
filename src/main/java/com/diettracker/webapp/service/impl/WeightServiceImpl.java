@@ -6,7 +6,9 @@ import com.diettracker.webapp.exception.impl.InvalidWeightException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.model.Weight;
+import com.diettracker.webapp.model.wrapper.SqlDate;
 import com.diettracker.webapp.service.spec.WeightService;
+import com.diettracker.webapp.service.util.UtilityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.time.DateUtils;
@@ -30,15 +32,15 @@ public class WeightServiceImpl implements WeightService {
 
     @Autowired
     WeightDao weightDao;
+    @Autowired
+    UtilityService utilityService;
 
     @Override
     public Weight addWeight(int userId, String weightStr, String weightDateStr) throws InvalidDateException, UnexpectedErrorException, InvalidWeightException {
         try {
             double weight = Double.parseDouble(weightStr);
-            Date weightDate = DateUtils.parseDate(weightDateStr, "dd.MM.yyyy");
-            return weightDao.add(userId, weight, weightDate);
-        } catch (ParseException e) {
-            throw new InvalidDateException();
+            SqlDate weightSqlDate = utilityService.convertToSqlDate(utilityService.convertDate(weightDateStr));
+            return weightDao.add(userId, weight, weightSqlDate);
         } catch (NumberFormatException ne) {
             throw new InvalidWeightException();
         } catch (DAOException e) {

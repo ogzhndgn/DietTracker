@@ -1,20 +1,21 @@
 package com.diettracker.webapp.service.impl;
 
 import com.diettracker.webapp.dao.HistoryDao;
-import com.diettracker.webapp.exception.impl.*;
+import com.diettracker.webapp.exception.impl.EndDateCanNotBeEmptyException;
+import com.diettracker.webapp.exception.impl.InvalidMealException;
+import com.diettracker.webapp.exception.impl.StartDateCanNotBeEmptyException;
+import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.History;
 import com.diettracker.webapp.model.Meal;
 import com.diettracker.webapp.service.spec.HistoryService;
 import com.diettracker.webapp.service.spec.MealService;
+import com.diettracker.webapp.service.util.UtilityService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class HistoryServiceImpl implements HistoryService {
     HistoryDao historyDao;
     @Autowired
     MealService mealService;
+    @Autowired
+    UtilityService utilityService;
 
     @Override
     public List<History> getLasts(int userId) throws UnexpectedErrorException {
@@ -53,10 +56,10 @@ public class HistoryServiceImpl implements HistoryService {
     public List<History> search(String mealId, String mealTimeBeginStr, String mealTimeEndStr, String foodSearch, int userId) throws ServiceException {
         this.checkBeginAndEndDate(mealTimeBeginStr, mealTimeEndStr);
         String mealCode = this.getMealCode(mealId);
-        Date mealTimeBegin = this.convertDate(mealTimeBeginStr);
-        Date mealTimeEnd = this.convertDate(mealTimeEndStr);
+        Date mealTimeBegin = utilityService.convertDate(mealTimeBeginStr);
+        Date mealTimeEnd = utilityService.convertDate(mealTimeEndStr);
         try {
-            return historyDao.getByFilter(mealCode, mealTimeBegin, mealTimeEnd, foodSearch, userId);
+            return historyDao.getByFilter(mealCode, utilityService.convertToSqlDate(mealTimeBegin), utilityService.convertToSqlDate(mealTimeEnd), foodSearch, userId);
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }
@@ -86,18 +89,6 @@ public class HistoryServiceImpl implements HistoryService {
             return mealCode;
         } catch (NumberFormatException nfe) {
             return mealCode;
-        }
-    }
-
-    private Date convertDate(String date) throws InvalidDateException {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        if (StringUtils.isBlank(date)) {
-            return null;
-        }
-        try {
-            return dateFormat.parse(date);
-        } catch (ParseException e) {
-            throw new InvalidDateException();
         }
     }
 }

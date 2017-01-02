@@ -8,9 +8,9 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,8 +57,8 @@ public class HistoryDao extends DatabaseObject {
         }
         if (mealTimeBegin != null && mealTimeEnd != null) {
             sql += " AND dh.eatingtime BETWEEN ? AND ? ";
-            parameterList.add(new java.sql.Date(mealTimeBegin.getTime()));
-            parameterList.add(new java.sql.Date(mealTimeEnd.getTime()));
+            parameterList.add(mealTimeBegin);
+            parameterList.add(mealTimeEnd);
         }
         if (StringUtils.isNotBlank(foodSearch)) {
             sql += " AND dh.foodlist ILIKE ? ";
