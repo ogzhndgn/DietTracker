@@ -2,6 +2,8 @@ package com.diettracker.webapp.model;
 
 import com.diettracker.webapp.enums.Role;
 
+import java.util.Date;
+
 /**
  * @author the Poet <dogan_oguzhan@hotmail.com> 20.6.2015
  */
@@ -15,6 +17,7 @@ public class User {
     private String password;
     private Role role;
     private int dieticianId;
+    private Date birthDate;
 
     public int getId() {
         return id;
@@ -87,7 +90,15 @@ public class User {
     public void setDieticianId(int dieticianId) {
         this.dieticianId = dieticianId;
     }
-    
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -100,6 +111,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", dieticianId=" + dieticianId +
+                ", birthDate=" + birthDate +
                 '}';
     }
 }

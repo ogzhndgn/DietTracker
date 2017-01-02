@@ -52,9 +52,10 @@ public class ProfileController extends BaseController {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirm-password");
+        String birthDate = request.getParameter("birth-date");
         int id = user.getId();
         try {
-            user = userService.editUserInfo(id, name, password, confirmPassword);
+            user = userService.editUserInfo(id, name, password, confirmPassword, birthDate);
             super.setSessionInfo(user, request);
         } catch (ServiceException e) {
             return this.returnProfilePageForError(e.getMessage(), user);

@@ -5,15 +5,18 @@ import com.diettracker.webapp.exception.impl.*;
 import com.diettracker.webapp.exception.spec.DAOException;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.User;
+import com.diettracker.webapp.model.wrapper.SqlDate;
 import com.diettracker.webapp.service.security.HashService;
 import com.diettracker.webapp.service.spec.UserService;
 import com.diettracker.webapp.service.util.FormValidator;
+import com.diettracker.webapp.service.util.UtilityService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService {
     FormValidator formValidator;
     @Autowired
     HashService hashService;
+    @Autowired
+    UtilityService utilityService;
     private final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     @Override
@@ -55,12 +60,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User editUserInfo(int id, String name, String password, String confirmPassword) throws ServiceException {
+    public User editUserInfo(int id, String name, String password, String confirmPassword, String birthDateStr) throws ServiceException {
         User user = this.getById(id);
         if (this.isPasswordUpdate(password, confirmPassword)) {
             this.changePassword(id, password);
         }
-        this.updateUser(name, id);
+        Date birthDate = utilityService.convertDate(birthDateStr);
+        this.updateUser(name, id, birthDate);
         return this.getById(id);
     }
 
@@ -124,11 +130,11 @@ public class UserServiceImpl implements UserService {
         return client;
     }
 
-    private void updateUser(String name, int userId) throws ServiceException {
-
+    private void updateUser(String name, int userId, Date birthDate) throws ServiceException {
         int updatedRowCount;
         try {
-            updatedRowCount = userDao.update(userId, name);
+            SqlDate sqlBirthDate = utilityService.convertToSqlDate(birthDate);
+            updatedRowCount = userDao.update(userId, name, sqlBirthDate);
         } catch (DAOException e) {
             throw new UnexpectedErrorException();
         }

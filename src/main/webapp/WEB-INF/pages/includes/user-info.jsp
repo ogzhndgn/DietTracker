@@ -1,3 +1,5 @@
+<script src="${pageContext.request.contextPath}/js/bootstrap-datepicker.min.js"></script>
+<link href="${pageContext.request.contextPath}/css/bootstrap-datepicker.min.css" rel="stylesheet">
 <div class="col-md-4">
   <h3><spring:message code="text.ProfileUpdate"/></h3>
   <form class="form-horizontal" role="form" id="user-update" action="${pageContext.request.contextPath}/profile" method="post">
@@ -6,6 +8,15 @@
       <label class="control-label col-sm-4" for="name"><spring:message code="text.Name"/></label>
       <div class="col-sm-8">
         <input type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="<spring:message code="text.Name"/>" value="${user.name}" required="" autocomplete="off">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="birth-date"><spring:message code="text.BirthDate"/></label>
+      <div class="col-sm-8">
+        <div class="input-group date" data-provide="datepicker" id="birth-date-div">
+          <input type="text" name="birth-date" id="birth-date" tabindex="1" class="form-control" placeholder="<spring:message code="text.BirthDate"/>" value="<fmt:formatDate value="${user.birthDate}" pattern="dd.MM.yyyy"/>" autocomplete="off">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
       </div>
     </div>
     <div class="form-group">
@@ -56,3 +67,11 @@
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    $('#birth-date-div').datepicker({
+      format: 'dd.mm.yyyy',
+      locale: 'tr'
+    });
+  });
+</script>

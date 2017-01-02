@@ -9,6 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -92,10 +93,10 @@ public class UserDao extends DatabaseObject {
         }
     }
 
-    public int update(int id, String name) throws DAOException {
-        String sql = "UPDATE diettracker.user SET name = ? WHERE id = ?";
+    public int update(int id, String name, Date birthDate) throws DAOException {
+        String sql = "UPDATE diettracker.user SET name = ?, birthdate = ? WHERE id = ?";
         QueryRunner queryRunner = new QueryRunner(getDataSource());
-        Object[] params = {name, id};
+        Object[] params = {name, birthDate, id};
         try {
             return queryRunner.update(sql, params);
         } catch (SQLException e) {
