@@ -37,14 +37,14 @@
       </c:otherwise>
     </c:choose>
     <c:if test="${showErrorMessage}">
-      <div class="alert alert-danger fade in" role="alert">
+      <div class="alert alert-danger fade in" role="alert" id="error-message-div">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         <span class="sr-only">Error</span><spring:message code="error.${errorMessage}"/>
       </div>
     </c:if>
     <c:if test="${showSuccessMessage}">
-      <div class="alert alert-success" role="alert">
+      <div class="alert alert-success fade in" role="alert" id="success-message-div">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
         <span class="sr-only">Success!</span><spring:message code="success.${successMessage}"/>
@@ -53,3 +53,13 @@
   </div>
   <%@include file="empty-col-2.jsp"%>
 </div>
+<script>
+  $(document).ready(function () {
+    $("#error-message-div").fadeTo(2000, 500).slideUp(500, function () {
+      $("#error-message-div").slideUp(500);
+    });
+    $("#success-message-div").fadeTo(2000, 500).slideUp(500, function () {
+      $("#success-message-div").slideUp(500);
+    });
+  });
+</script>
