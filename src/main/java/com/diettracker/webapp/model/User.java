@@ -18,6 +18,7 @@ public class User {
     private Role role;
     private int dieticianId;
     private Date birthDate;
+    private String age;
 
     public int getId() {
         return id;
@@ -96,7 +97,19 @@ public class User {
     }
 
     public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+        if (birthDate != null) {
+            this.birthDate = new java.util.Date(birthDate.getTime());
+        } else {
+            this.birthDate = birthDate;
+        }
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     @Override

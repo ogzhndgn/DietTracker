@@ -1,6 +1,7 @@
 package com.diettracker.webapp.service.util;
 
 import com.diettracker.webapp.exception.impl.InvalidDateException;
+import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.wrapper.SqlDate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,10 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -35,5 +40,16 @@ public class UtilityService {
             sqlDate = new SqlDate(date.getTime());
         }
         return sqlDate;
+    }
+
+    public LocalDate convertToLocalDate(Date date) throws ServiceException {
+        try {
+            Instant instant = date.toInstant();
+            ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+            return zonedDateTime.toLocalDate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InvalidDateException();
+        }
     }
 }

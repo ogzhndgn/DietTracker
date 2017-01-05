@@ -5,6 +5,7 @@
         <tr>
             <th><spring:message code="text.Name"/></th>
             <th><spring:message code="text.Email"/></th>
+            <th><spring:message code="text.Age"/></th>
             <th><spring:message code="text.Details"/></th>
         </tr>
         </thead>
@@ -16,6 +17,7 @@
             <tr>
                 <td>${client.name}</td>
                 <td>${client.email}</td>
+                <td>${client.age}</td>
                 <td><a href="<c:out value='${detailUrl}'/>"><spring:message code="text.Detail"/> </a></td>
             </tr>
         </c:forEach>
