@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
 import java.util.Date;
 import java.util.List;
 
@@ -107,22 +106,6 @@ public class UserServiceImpl implements UserService {
             throw new PasswordCanNotBeBlankException();
         }
         this.changePassword(id, password);
-    }
-
-    @Override
-    public List<User> getClientsOfDietician(boolean isActive, int dieticianId) throws ServiceException {
-        try {
-            List<User> clientList = userDao.get(isActive, dieticianId);
-            if (clientList == null || clientList.isEmpty()) {
-                throw new ClientListIsEmptyException();
-            }
-            for (User user : clientList) {
-                user.setAge(this.getAgeOfUser(user.getBirthDate()));
-            }
-            return clientList;
-        } catch (DAOException e) {
-            throw new UnexpectedErrorException();
-        }
     }
 
     @Override
@@ -218,23 +201,5 @@ public class UserServiceImpl implements UserService {
             return;
         }
         throw new UserExistsException();
-    }
-
-    private String getAgeOfUser(Date birthDate) {
-        if (birthDate == null) {
-            return "N\\A";
-        }
-        LocalDate birthLocalDate;
-        try {
-            birthLocalDate = utilityService.convertToLocalDate(birthDate);
-        } catch (ServiceException e) {
-            return "Invalid Birth Date";
-        }
-        LocalDate now = LocalDate.now();
-        if (birthLocalDate.isAfter(now)) {
-            return "Invalid Birth Date";
-        }
-        Period period = Period.between(birthLocalDate, now);
-        return period.getYears() + " Yıl " + period.getMonths() + " Ay";
     }
 }

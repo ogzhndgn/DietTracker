@@ -25,7 +25,5 @@ public interface UserService {
 
     void recoverPassword(int id, String password, String confirmPassword) throws ServiceException;
 
-    List<User> getClientsOfDietician(boolean isActive, int dieticianId) throws ServiceException;
-
     User getDieticiansClient(int dieticianId, int clientId) throws ServiceException;
 }

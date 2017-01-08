@@ -43,7 +43,11 @@ public class Weight {
     }
 
     public void setWeightDate(Date weightDate) {
-        this.weightDate = weightDate;
+        if (weightDate != null) {
+            this.weightDate = new java.util.Date(weightDate.getTime());
+        } else {
+            this.weightDate = weightDate;
+        }
     }
 
     public Timestamp getCreatedDate() {

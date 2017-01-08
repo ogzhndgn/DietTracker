@@ -11,16 +11,13 @@ import com.diettracker.webapp.service.spec.WeightService;
 import com.diettracker.webapp.service.util.UtilityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,6 +81,15 @@ public class WeightServiceImpl implements WeightService {
             weightDateList.add(dateFormat.format(weight.getWeightDate()));
         }
         return this.convertObjectToJsonString(weightDateList);
+    }
+
+    @Override
+    public Weight getLastWeightOfUser(int userId) throws UnexpectedErrorException {
+        try {
+            return weightDao.getLastWeight(userId);
+        } catch (DAOException e) {
+            throw new UnexpectedErrorException();
+        }
     }
 
     private String convertObjectToJsonString(Object object) {

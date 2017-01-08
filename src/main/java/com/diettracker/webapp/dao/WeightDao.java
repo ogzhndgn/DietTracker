@@ -56,4 +56,17 @@ public class WeightDao extends DatabaseObject {
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
+
+    public Weight getLastWeight(int userId) throws DAOException {
+        String sql = "SELECT * FROM diettracker.weight dw WHERE dw.userid = ? ORDER BY dw.weightdate DESC, dw.createddate DESC LIMIT 1";
+        ResultSetHandler<Weight> resultSetHandler = new BeanHandler<>(Weight.class);
+        QueryRunner queryRunner = new QueryRunner(getDataSource());
+        Object[] params = {userId};
+        try {
+            return queryRunner.query(sql, resultSetHandler, params);
+        } catch (SQLException e) {
+            logger.fatal(e.getMessage() + " " + e.getCause());
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
 }

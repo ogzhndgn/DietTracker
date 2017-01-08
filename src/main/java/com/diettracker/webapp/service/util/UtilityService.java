@@ -48,7 +48,14 @@ public class UtilityService {
             ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
             return zonedDateTime.toLocalDate();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new InvalidDateException();
+        }
+    }
+
+    public String formatDate(Date date) throws InvalidDateException {
+        try {
+            return DT_STND_DATE_FORMAT.format(date);
+        } catch (Exception e) {
             throw new InvalidDateException();
         }
     }

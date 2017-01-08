@@ -6,6 +6,7 @@
             <th><spring:message code="text.Name"/></th>
             <th><spring:message code="text.Email"/></th>
             <th><spring:message code="text.Age"/></th>
+            <th><spring:message code="text.LastWeight"/></th>
             <th><spring:message code="text.Details"/></th>
         </tr>
         </thead>
@@ -18,6 +19,7 @@
                 <td>${client.name}</td>
                 <td>${client.email}</td>
                 <td>${client.age}</td>
+                <td>${client.lastWeight} (${client.lastWeightDate})</td>
                 <td><a href="<c:out value='${detailUrl}'/>"><spring:message code="text.Detail"/> </a></td>
             </tr>
         </c:forEach>

@@ -21,4 +21,6 @@ public interface WeightService {
     String getWeightValueJSON(List<Weight> weightList);
 
     String getWeightDateJSON(List<Weight> weightList);
+
+    Weight getLastWeightOfUser(int userId) throws UnexpectedErrorException;
 }

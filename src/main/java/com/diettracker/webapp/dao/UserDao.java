@@ -2,6 +2,7 @@ package com.diettracker.webapp.dao;
 
 import com.diettracker.webapp.enums.Role;
 import com.diettracker.webapp.exception.spec.DAOException;
+import com.diettracker.webapp.model.extension.Client;
 import com.diettracker.webapp.model.User;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -68,9 +69,9 @@ public class UserDao extends DatabaseObject {
         }
     }
 
-    public List<User> get(boolean active, int dieticianId) throws DAOException {
+    public List<Client> get(boolean active, int dieticianId) throws DAOException {
         String sql = "SELECT * FROM diettracker.user du WHERE du.active = ? AND du.dieticianid = ?";
-        ResultSetHandler<List<User>> resultSetHandler = new BeanListHandler<>(User.class);
+        ResultSetHandler<List<Client>> resultSetHandler = new BeanListHandler<>(Client.class);
         QueryRunner queryRunner = new QueryRunner(super.getDataSource());
         Object[] params = {active, dieticianId};
         try {

@@ -4,7 +4,8 @@ import com.diettracker.webapp.controller.base.BaseController;
 import com.diettracker.webapp.enums.Role;
 import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.User;
-import com.diettracker.webapp.service.spec.UserService;
+import com.diettracker.webapp.model.extension.Client;
+import com.diettracker.webapp.service.spec.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.util.List;
 @Controller
 public class ClientsController extends BaseController {
     @Autowired
-    UserService userService;
+    ClientService clientService;
 
     @RequestMapping(value = "/dietician/clients", method = RequestMethod.GET)
     public ModelAndView clientsListGet(HttpServletRequest request) {
@@ -29,7 +30,7 @@ public class ClientsController extends BaseController {
         modelAndView.addObject("user", user);
         try {
             super.checkPermissionForRole(user.getRole(), new Role[]{Role.DIETICIAN});
-            List<User> clientList = userService.getClientsOfDietician(true, user.getId());
+            List<Client> clientList = clientService.getClientsOfDietician(true, user.getId());
             modelAndView.addObject("clientList", clientList);
         } catch (ServiceException se) {
             modelAndView.addObject("showErrorMessage", true);
