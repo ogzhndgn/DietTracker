@@ -1,6 +1,14 @@
+<link href="${pageContext.request.contextPath}/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/js/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/dataTables.bootstrap.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+    $(document).ready(function () {
+        $('#client-list').DataTable();
+    });
+</script>
 <div class="col-md-8">
-    <table class="table table-hover table-striped">
+    <table id="client-list" class="table table-hover table-striped">
         <thead>
         <tr>
             <th><spring:message code="text.Name"/></th>
