@@ -1,14 +1,14 @@
 <div class="row">
   <%@include file="empty-col-2.jsp" %>
   <div class="col-md-5">
-    <div class="page-header" style="height: 10%;">
+    <div class="page-header" style="height: 15%;">
       <h1>
         <spring:message code="text.Title"/>
       </h1>
     </div>
   </div>
   <div class="col-md-3">
-    <div class="page-header text-right" style="height: 10%;">
+    <div class="page-header text-right" style="height: 15%;">
       <spring:message code="text.Dear"/>
       <h4>
         <c:choose>
