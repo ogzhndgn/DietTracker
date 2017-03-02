@@ -13,5 +13,5 @@ import java.util.List;
 public interface MealService {
     List<Meal> getMealList() throws ServiceException;
 
-    Meal getMealById(int id) throws UnexpectedErrorException, InvalidMealException;
+    Meal getMealById(int id) throws ServiceException;
 }

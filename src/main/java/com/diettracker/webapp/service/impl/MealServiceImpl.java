@@ -35,7 +35,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal getMealById(int id) throws UnexpectedErrorException, InvalidMealException {
+    public Meal getMealById(int id) throws ServiceException {
         try {
             Meal meal = mealDao.get(id);
             if (meal == null) {

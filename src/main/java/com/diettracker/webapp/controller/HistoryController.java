@@ -27,7 +27,6 @@ import java.util.List;
  */
 @Controller
 public class HistoryController extends BaseController {
-
     @Autowired
     HistoryService historyService;
     @Autowired
@@ -37,17 +36,21 @@ public class HistoryController extends BaseController {
     @Autowired
     MealService mealService;
 
+    public static final String HISTORY_DEFAULT_VIEW_NAME = "history/history";
+    public static final String MEAL_LIST_VARIABLE = "mealList";
+    public static final String SHOW_ERROR_MESSAGE_VARIABLE = "showErrorMessage";
+
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView showHistroy(HttpServletRequest request) throws UnexpectedErrorException {
-        ModelAndView modelAndView = new ModelAndView("history/history");
+        ModelAndView modelAndView = new ModelAndView(HISTORY_DEFAULT_VIEW_NAME);
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
         List<History> historyList = historyService.getAll(user.getId());
         try {
             modelAndView.addObject("user", user);
             modelAndView.addObject("historyList", historyList);
-            modelAndView.addObject("mealList", mealService.getMealList());
-            modelAndView.addObject("showErrorMessage", false);
+            modelAndView.addObject(MEAL_LIST_VARIABLE, mealService.getMealList());
+            modelAndView.addObject(SHOW_ERROR_MESSAGE_VARIABLE, false);
             return modelAndView;
         } catch (ServiceException e) {
             return this.returnHistoryErrorPage(e.getMessage());
@@ -56,7 +59,7 @@ public class HistoryController extends BaseController {
 
     @RequestMapping(value = "/history", method = RequestMethod.POST)
     public ModelAndView searchForMeal(HttpServletRequest request) throws UnexpectedErrorException {
-        ModelAndView modelAndView = new ModelAndView("history/history");
+        ModelAndView modelAndView = new ModelAndView(HISTORY_DEFAULT_VIEW_NAME);
         SessionInfo sessionInfo = super.getSessionInfo(request);
         User user = sessionInfo.getUser();
         String mealId = request.getParameter("meal");
@@ -66,7 +69,7 @@ public class HistoryController extends BaseController {
         try {
             List<History> historyList = historyService.search(mealId, mealTimeBegin, mealTimeEnd, foodSearch, user.getId());
             modelAndView.addObject("historyList", historyList);
-            modelAndView.addObject("mealList", mealService.getMealList());
+            modelAndView.addObject(MEAL_LIST_VARIABLE, mealService.getMealList());
             modelAndView.addObject("showErrorMessage", false);
             modelAndView.addObject("mealId", mealId);
             modelAndView.addObject("mealTimeBegin", mealTimeBegin);
@@ -95,9 +98,9 @@ public class HistoryController extends BaseController {
     }
 
     private ModelAndView returnHistoryErrorPage(String apiErrorCode) {
-        ModelAndView modelAndView = new ModelAndView("history/history");
+        ModelAndView modelAndView = new ModelAndView(HISTORY_DEFAULT_VIEW_NAME);
         try {
-            modelAndView.addObject("mealList", mealService.getMealList());
+            modelAndView.addObject(MEAL_LIST_VARIABLE, mealService.getMealList());
         } catch (ServiceException ignored) {
         }
         modelAndView.addObject("showErrorMessage", true);

@@ -85,11 +85,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userDao.getUsers();
-    }
-
-    @Override
     public void deleteUser(String email) {
         logger.info("User: " + email + " will be deleted from the system");
     }

@@ -17,8 +17,6 @@ public interface UserService {
 
     User getByEmail(String email) throws ServiceException;
 
-    List<User> getAllUsers();
-
     void deleteUser(String email);
 
     void deleteAllUsers();

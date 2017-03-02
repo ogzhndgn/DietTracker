@@ -26,7 +26,7 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
 
     private static final int DUMMY_EMPTY_MEAL_ID = 0;
-    private final int MAX_MEAL_LIMIT = 10;
+    private static final int MAX_MEAL_LIMIT = 10;
     @Autowired
     HistoryDao historyDao;
     @Autowired
@@ -78,7 +78,7 @@ public class HistoryServiceImpl implements HistoryService {
         }
     }
 
-    private String getMealCode(String mealIdStr) throws UnexpectedErrorException, InvalidMealException {
+    private String getMealCode(String mealIdStr) throws ServiceException {
         String mealCode = "";
         try {
             int mealId = Integer.parseInt(mealIdStr);

@@ -4,6 +4,7 @@ import com.diettracker.webapp.dao.MealFoodDao;
 import com.diettracker.webapp.exception.impl.MealFoodCanNotInserted;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
+import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.Food;
 import com.diettracker.webapp.model.MealFood;
 import com.diettracker.webapp.model.UserMeal;
@@ -27,7 +28,7 @@ public class MealFoodServiceImpl implements MealFoodService {
     UserMealService userMealService;
 
     @Override
-    public List<MealFood> insertNewMealFood(UserMeal userMeal, List<Food> foodList) throws UnexpectedErrorException, MealFoodCanNotInserted {
+    public List<MealFood> insertNewMealFood(UserMeal userMeal, List<Food> foodList) throws ServiceException {
         int userMealId = userMeal.getId();
         List<MealFood> mealFoodList = new ArrayList<>();
         this.insert(foodList, userMealId, mealFoodList);

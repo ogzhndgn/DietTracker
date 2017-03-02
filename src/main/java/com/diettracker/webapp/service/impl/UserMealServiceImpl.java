@@ -6,6 +6,7 @@ import com.diettracker.webapp.exception.impl.InvalidMealException;
 import com.diettracker.webapp.exception.impl.NonExistsingUserMealException;
 import com.diettracker.webapp.exception.impl.UnexpectedErrorException;
 import com.diettracker.webapp.exception.spec.DAOException;
+import com.diettracker.webapp.exception.spec.ServiceException;
 import com.diettracker.webapp.model.UserMeal;
 import com.diettracker.webapp.service.spec.MealService;
 import com.diettracker.webapp.service.spec.UserMealService;
@@ -28,7 +29,7 @@ public class UserMealServiceImpl implements UserMealService {
     MealService mealService;
 
     @Override
-    public UserMeal addUserMeal(String meal, int userId, String eatingTime) throws UnexpectedErrorException, InvalidMealException, InvalidDateException {
+    public UserMeal addUserMeal(String meal, int userId, String eatingTime) throws ServiceException {
         try {
             Timestamp eatingTimestamp = this.convertToTimestamp(eatingTime);
             int mealId = Integer.parseInt(meal);

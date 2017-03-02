@@ -27,12 +27,4 @@ public class DieticianProfileController extends BaseController {
         modelAndView.addObject("user", user);
         return modelAndView;
     }
-
-    private ModelAndView returnProfilePageForError(String apiErrorCode, User user) {
-        ModelAndView modelAndView = new ModelAndView("dietician/profile");
-        modelAndView.addObject("showErrorMessage", true);
-        modelAndView.addObject("errorMessage", apiErrorCode);
-        modelAndView.addObject("user", user);
-        return modelAndView;
-    }
 }

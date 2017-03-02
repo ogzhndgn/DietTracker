@@ -102,20 +102,4 @@ public class User {
             this.birthDate = birthDate;
         }
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", passwordSalt='" + passwordSalt + '\'' +
-                ", active=" + active +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", dieticianId=" + dieticianId +
-                ", birthDate=" + birthDate +
-                '}';
-    }
 }

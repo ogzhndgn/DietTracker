@@ -21,18 +21,6 @@ import java.util.List;
 @Repository
 public class UserDao extends DatabaseObject {
 
-    public List<User> getUsers() {
-        StringBuilder stringBuilder = new StringBuilder("SELECT * FROM diettracker.user");
-        ResultSetHandler<List<User>> resultSetHandler = new BeanListHandler<>(User.class);
-        QueryRunner queryRunner = new QueryRunner(getDataSource());
-        try {
-            return queryRunner.query(stringBuilder.toString(), resultSetHandler);
-        } catch (SQLException e) {
-            logger.warn(e.getMessage());
-            return null;
-        }
-    }
-
     public User get(String email) throws DAOException {
         String sql = "SELECT * FROM diettracker.user du WHERE du.email = ?";
         ResultSetHandler<User> resultSetHandler = new BeanHandler<>(User.class);
