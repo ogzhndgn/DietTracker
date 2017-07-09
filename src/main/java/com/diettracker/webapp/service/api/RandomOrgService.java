@@ -23,7 +23,7 @@ import java.net.URL;
  */
 @Component
 public class RandomOrgService {
-    public static final String REQUEST_ID = String.valueOf(System.currentTimeMillis());
+    private static final String REQUEST_ID = String.valueOf(System.currentTimeMillis());
     @Autowired
     RandomOrgConfig randomOrgConfig;
     private final Logger logger = LogManager.getLogger(RandomOrgService.class);
