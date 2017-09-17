@@ -47,11 +47,11 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/elephant"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="sa"/>
-        <property name="initialSize" value="5"/>
-        <property name="maxActive" value="10"/>
+        <property name="url" value="jdbc:postgresql://ec2-79-125-26-23.eu-west-1.compute.amazonaws.com:5432/d78iev3336j1f0"/>
+        <property name="username" value="baoozfxeuheshr"/>
+        <property name="password" value="61210faf3dfe330f4cb06b36a3fbfe4a66023c6f4578b910be4de05e129b7e97"/>
+        <!--<property name="initialSize" value="5"/>-->
+        <!--<property name="maxActive" value="10"/>-->
     </bean>
 
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
